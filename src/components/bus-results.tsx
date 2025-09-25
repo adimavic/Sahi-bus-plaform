@@ -5,13 +5,7 @@ import { Bus, SearchQuery } from '@/lib/types';
 import { generateMockBuses } from '@/lib/data';
 import { BusCard } from './bus-card';
 import { Skeleton } from './ui/skeleton';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Switch } from './ui/switch';
-import { Label } from './ui/label';
-import { Button } from './ui/button';
-import { Map } from 'lucide-react';
 import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationNext } from '@/components/ui/pagination';
-import { useToast } from '@/hooks/use-toast';
 
 type BusResultsProps = {
   query: SearchQuery | null;
@@ -26,9 +20,7 @@ const BUSES_PER_PAGE = 5;
 
 export function BusResults({ query, setAllBuses, isSearching, setIsSearching, compareIds, toggleCompare }: BusResultsProps) {
   const [buses, setBuses] = useState<Bus[]>([]);
-  const [filterWeekend, setFilterWeekend] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const { toast } = useToast();
 
   useEffect(() => {
     if (query) {
@@ -47,24 +39,12 @@ export function BusResults({ query, setAllBuses, isSearching, setIsSearching, co
     }
   }, [query, setAllBuses, setIsSearching]);
 
-  const filteredBuses = useMemo(() => {
-    if (!query) return [];
-    const searchDate = new Date(query.date);
-    const dayOfWeek = searchDate.getDay();
-    const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
-
-    return buses.filter(() => {
-        if (!filterWeekend) return true;
-        return isWeekend;
-    });
-  }, [buses, filterWeekend, query]);
-  
   const paginatedBuses = useMemo(() => {
       const startIndex = (currentPage - 1) * BUSES_PER_PAGE;
-      return filteredBuses.slice(startIndex, startIndex + BUSES_PER_PAGE);
-  }, [filteredBuses, currentPage]);
+      return buses.slice(startIndex, startIndex + BUSES_PER_PAGE);
+  }, [buses, currentPage]);
   
-  const totalPages = Math.ceil(filteredBuses.length / BUSES_PER_PAGE);
+  const totalPages = Math.ceil(buses.length / BUSES_PER_PAGE);
 
   if (isSearching) {
     return (
@@ -108,26 +88,7 @@ export function BusResults({ query, setAllBuses, isSearching, setIsSearching, co
   return (
     <div>
       <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-        <h2 className="text-xl font-headline font-semibold">{filteredBuses.length} buses found</h2>
-        <div className="flex items-center gap-4 flex-wrap justify-center">
-            <div className="flex items-center space-x-2">
-                <Switch id="weekend-toggle" checked={filterWeekend} onCheckedChange={setFilterWeekend} />
-                <Label htmlFor="weekend-toggle">Weekend</Label>
-            </div>
-            <Select defaultValue="rating">
-                <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Sort by" />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectItem value="rating">Sort by rating</SelectItem>
-                    <SelectItem value="price">Sort by price</SelectItem>
-                    <SelectItem value="departure">Sort by departure</SelectItem>
-                </SelectContent>
-            </Select>
-            <Button variant="outline" onClick={() => toast({ title: "Map View", description: "This feature is coming soon!" })}>
-                <Map className="mr-2 h-4 w-4" /> Show Map
-            </Button>
-        </div>
+        <h2 className="text-xl font-headline font-semibold">{buses.length} buses found</h2>
       </div>
       
       <div className="space-y-4">
