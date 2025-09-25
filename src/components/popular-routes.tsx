@@ -1,7 +1,6 @@
 'use client';
 
 import { SearchQuery } from '@/lib/types';
-import { ArrowRight } from 'lucide-react';
 import React from 'react';
 
 type PopularRoutesProps = {
@@ -22,18 +21,16 @@ export function PopularRoutes({ onSearch }: PopularRoutesProps) {
     }
 
     return (
-        <div className="mt-8">
-            <h3 className="text-md font-medium text-gray-700">Popular routes in India:</h3>
-            <div className="flex flex-wrap justify-center gap-3 mt-4">
+        <div className="hidden md:flex items-center gap-4">
+            <h3 className="text-sm font-medium text-gray-400">Popular routes:</h3>
+            <div className="flex flex-wrap items-center gap-3">
                 {routes.map((route, index) => (
                     <button
                         key={index}
                         onClick={() => handleRouteClick(route)}
-                        className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-full text-sm font-medium text-gray-700 transition-colors"
+                        className="text-sm font-medium text-white opacity-80 hover:opacity-100 hover:underline transition-opacity"
                     >
-                        <span>{route.source}</span>
-                        <ArrowRight className="h-3 w-3 text-muted-foreground" />
-                        <span>{route.destination}</span>
+                        <span>{route.source} - {route.destination}</span>
                     </button>
                 ))}
             </div>

@@ -15,7 +15,8 @@ import { Calendar } from '@/components/ui/calendar';
 import { Form, FormControl, FormField, FormItem, FormMessage, FormLabel } from '@/components/ui/form';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Card, CardContent } from '@/components/ui/card';
+import { PopularRoutes } from './popular-routes';
+import { RecentSearches } from './recent-searches';
 
 const formSchema = z.object({
   country: z.string().min(1, 'Please select a country.'),
@@ -36,6 +37,12 @@ type BusSearchFormProps = {
 
 export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
   const [selectedCountryCode, setSelectedCountryCode] = React.useState('IN');
+  const [recentSearches] = React.useState<SearchQuery[]>(() => {
+    if (typeof window === 'undefined') return [];
+    const saved = localStorage.getItem('recent-searches');
+    return saved ? JSON.parse(saved) : [];
+  });
+
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -66,25 +73,23 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
   }
   
   return (
-    <Card className="shadow-lg rounded-2xl">
-      <CardContent className="p-4 sm:p-6">
+    <div className="relative -mb-20">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-x-4 gap-y-6 items-end">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="bg-navy-deep rounded-lg p-2">
+            <div className="grid grid-cols-1 md:grid-cols-10 gap-0.5 items-center">
               
-              <div className="md:col-span-4">
+              <div className="md:col-span-3">
                  <FormField
                   control={form.control}
                   name="source"
                   render={({ field }) => (
                     <FormItem>
-                       <FormLabel>From</FormLabel>
                       <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
-                          <SelectTrigger className="shadow-sm rounded-lg h-12 text-base bg-white">
-                            <div className="flex items-center gap-2">
-                                <MapPin className="h-5 w-5 text-muted-foreground"/>
-                                <SelectValue placeholder="Select source" />
+                          <SelectTrigger className="shadow-none rounded-l-md h-16 bg-navy text-white border-0 focus:ring-2 focus:ring-blue-500 text-base">
+                            <div className="text-left">
+                                <p className="text-xs text-gray-400">From</p>
+                                <SelectValue placeholder="Select source" className="font-semibold" />
                             </div>
                           </SelectTrigger>
                         </FormControl>
@@ -98,27 +103,26 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                 />
               </div>
 
-              <div className="md:col-span-1 flex items-center justify-center -mt-2 md:mt-0 md:pb-3">
-                    <Button type="button" variant="ghost" size="icon" onClick={handleSwap} className="h-10 w-10 rounded-full bg-gray-100 hover:bg-gray-200">
-                      <ArrowRightLeft className="h-4 w-4 text-gray-600" />
+              <div className="absolute md:relative left-1/2 md:left-auto top-1/2 md:top-auto -translate-x-1/2 md:translate-x-0 -translate-y-1/2 md:translate-y-0 z-10 md:col-span-1 flex items-center justify-center">
+                    <Button type="button" variant="outline" size="icon" onClick={handleSwap} className="h-8 w-8 rounded-full bg-navy hover:bg-navy-light border-gray-600 text-white">
+                      <ArrowRightLeft className="h-4 w-4" />
                     </Button>
               </div>
 
 
-              <div className="md:col-span-4">
+              <div className="md:col-span-3">
                 <FormField
                   control={form.control}
                   name="destination"
                   render={({ field }) => (
                     <FormItem>
-                        <FormLabel>To</FormLabel>
                       <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
-                           <SelectTrigger className="shadow-sm rounded-lg h-12 text-base bg-white">
-                            <div className="flex items-center gap-2">
-                               <MapPin className="h-5 w-5 text-muted-foreground"/>
-                               <SelectValue placeholder="Select destination" />
-                            </div>
+                           <SelectTrigger className="shadow-none rounded-r-md md:rounded-none h-16 bg-navy text-white border-0 focus:ring-2 focus:ring-blue-500 text-base">
+                             <div className="text-left">
+                                <p className="text-xs text-gray-400">To</p>
+                                <SelectValue placeholder="Select destination" className="font-semibold" />
+                             </div>
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -131,25 +135,26 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                 />
               </div>
               
-               <div className="md:col-span-3">
+               <div className="md:col-span-2">
                  <FormField
                   control={form.control}
                   name="date"
                   render={({ field }) => (
                     <FormItem>
-                        <FormLabel>Departure Date</FormLabel>
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>
                             <Button
-                              variant={'outline'}
+                              variant={'ghost'}
                               className={cn(
-                                'w-full justify-start text-left font-normal shadow-sm rounded-lg h-12 text-base bg-white',
+                                'w-full justify-start text-left font-normal shadow-none rounded-none h-16 bg-navy text-white border-0 hover:bg-navy-light focus:ring-2 focus:ring-blue-500 text-base',
                                 !field.value && 'text-muted-foreground'
                               )}
                             >
-                              <CalendarIcon className="mr-2 h-5 w-5" />
-                              {field.value ? format(field.value, 'dd-MM-yyyy') : <span>Pick a date</span>}
+                               <div className="text-left">
+                                    <p className="text-xs text-gray-400">Depart</p>
+                                    {field.value ? <span className="font-semibold">{format(field.value, 'dd/MM/yyyy')}</span> : <span>Pick a date</span>}
+                               </div>
                             </Button>
                           </FormControl>
                         </PopoverTrigger>
@@ -169,21 +174,20 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                 />
               </div>
 
-              <div className="md:col-span-12 lg:col-span-3 lg:col-start-10">
-                <Button type="submit" disabled={isSearching} className="w-full h-12 rounded-lg text-base font-bold bg-primary hover:bg-primary/90 transition-transform hover:scale-105">
+              <div className="md:col-span-2">
+                <Button type="submit" disabled={isSearching} className="w-full h-16 rounded-r-md text-lg font-bold bg-primary hover:bg-primary/90 transition-transform">
                   {isSearching ? (
                     <Loader2 className="h-6 w-6 animate-spin" />
-                  ) : (
-                    <>
-                      <Search className="h-5 w-5 mr-2" /> Search Buses
-                    </>
-                  )}
+                  ) : "Search"}
                 </Button>
               </div>
             </div>
           </form>
         </Form>
-      </CardContent>
-    </Card>
+        <div className="mt-4 px-2">
+            <PopularRoutes onSearch={handleSearch} />
+            <RecentSearches searches={recentSearches} onSearch={handleSearch} />
+        </div>
+    </div>
   );
 }

@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { SearchQuery } from '@/lib/types';
-import { ArrowRight, History } from 'lucide-react';
 
 type RecentSearchesProps = {
   searches: SearchQuery[];
@@ -21,21 +20,16 @@ export function RecentSearches({ searches, onSearch }: RecentSearchesProps) {
   }
 
   return (
-    <div className="mt-6">
-      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-        <History className="h-4 w-4" />
-        <h3 className="font-medium">Recent Searches:</h3>
-      </div>
-      <div className="flex flex-wrap gap-2 mt-2">
+    <div className="flex items-center gap-4 mt-3">
+      <h3 className="text-sm font-medium text-gray-400">Recent:</h3>
+      <div className="flex flex-wrap gap-2">
         {searches.map((search, index) => (
           <button
             key={index}
             onClick={() => onSearch(search)}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-full text-sm font-medium text-gray-700 transition-colors"
+            className="text-sm font-medium text-white opacity-80 hover:opacity-100 hover:underline transition-opacity"
           >
-            <span>{search.source}</span>
-            <ArrowRight className="h-3 w-3 text-muted-foreground" />
-            <span>{search.destination}</span>
+             <span>{search.source} - {search.destination}</span>
           </button>
         ))}
       </div>

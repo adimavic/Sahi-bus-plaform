@@ -4,14 +4,12 @@ import React, { useState, useMemo, useCallback } from 'react';
 import { Bus, SearchQuery, SortOption } from '@/lib/types';
 import { Header } from '@/components/layout/header';
 import { BusSearchForm } from '@/components/bus-search-form';
-import { RecentSearches } from '@/components/recent-searches';
 import { BusResults } from '@/components/bus-results';
 import { ComparisonBar } from '@/components/comparison-bar';
 import { ComparisonModal } from '@/components/comparison-modal';
 import { useLocalStorage } from '@/hooks/use-local-storage';
 import { SidebarProvider, Sidebar, SidebarInset, SidebarContent, SidebarTrigger } from '@/components/ui/sidebar';
 import { Filters } from '@/components/filters';
-import { PopularRoutes } from '@/components/popular-routes';
 import { generateMockBuses } from '@/lib/data';
 import Image from 'next/image';
 
@@ -124,56 +122,58 @@ export default function Home() {
 
     return (
         <SidebarProvider>
-            <div className="flex min-h-screen w-full flex-col">
-                <div className="relative">
-                    <Header />
+            <div className="flex min-h-screen w-full flex-col bg-background">
+                <div className="relative bg-navy text-white">
+                    <div className="container relative z-10">
+                        <Header />
+                        <div className="pt-20 pb-16 md:pt-28 md:pb-24 text-center">
+                            <h1 className="text-4xl font-headline font-bold tracking-tight md:text-5xl drop-shadow-md">
+                                The best bus offers anywhere across India
+                            </h1>
+                            <p className="mt-4 text-lg max-w-2xl mx-auto drop-shadow-sm">
+                                Compare prices from RedBus, MakeMyTrip, AbhiBus, and more in one place.
+                            </p>
+                        </div>
+                         <BusSearchForm onSearch={handleSearch} isSearching={isSearching} />
+                    </div>
+
                     <Image
-                        src="https://picsum.photos/seed/ocean/1800/800"
-                        alt="Ocean waves"
+                        src="https://picsum.photos/seed/bus-travel/1800/600"
+                        alt="Scenic bus route"
                         fill
-                        className="object-cover -z-10"
+                        className="object-cover z-0 opacity-20"
                         data-ai-hint="ocean waves"
                     />
-                    <div className="container pt-24 pb-12 md:pt-32 md:pb-20 text-center text-white">
-                         <h1 className="text-4xl font-headline font-bold tracking-tight md:text-6xl drop-shadow-md">
-                            The best bus offers anywhere across India
-                        </h1>
-                        <p className="mt-4 text-lg max-w-2xl mx-auto drop-shadow-sm">
-                            Compare prices from RedBus, MakeMyTrip, AbhiBus, and more in one place.
-                        </p>
-                    </div>
                 </div>
 
                 <div className="flex flex-1">
-                    <Sidebar>
-                        <SidebarContent>
-                            <Filters
-                                operators={operators}
-                                maxPrice={maxPrice}
-                                sortBy={sortBy}
-                                onSortByChange={setSortBy}
-                                priceRange={priceRange}
-                                onPriceChange={setPriceRange}
-                                seatType={seatType}
-                                onSeatTypeChange={setSeatType}
-                                selectedOperators={selectedOperators}
-                                onSelectedOperatorsChange={setSelectedOperators}
-                            />
-                        </SidebarContent>
-                    </Sidebar>
-                    <SidebarInset className="-mt-16 bg-transparent">
+                    {query && (
+                        <Sidebar>
+                            <SidebarContent>
+                                <Filters
+                                    operators={operators}
+                                    maxPrice={maxPrice}
+                                    sortBy={sortBy}
+                                    onSortByChange={setSortBy}
+                                    priceRange={priceRange}
+                                    onPriceChange={setPriceRange}
+                                    seatType={seatType}
+                                    onSeatTypeChange={setSeatType}
+                                    selectedOperators={selectedOperators}
+                                    onSelectedOperatorsChange={setSelectedOperators}
+                                />
+                            </SidebarContent>
+                        </Sidebar>
+                    )}
+                    <SidebarInset className="bg-background">
                         <main className="container flex-1 py-6 md:py-10">
-                            <section className="max-w-5xl mx-auto">
-                                <BusSearchForm onSearch={handleSearch} isSearching={isSearching} />
-                                <PopularRoutes onSearch={handleSearch} />
-                                <RecentSearches searches={recentSearches} onSearch={handleSearch} />
-                            </section>
-
-                            <section className="mt-12">
-                                <div className="flex items-center mb-4">
-                                    <SidebarTrigger className="md:hidden"/>
-                                    <h2 className="text-lg font-semibold ml-2 md:hidden">Filters & Sort</h2>
-                                </div>
+                            <section className="mt-8">
+                                {query && (
+                                    <div className="flex items-center mb-4">
+                                        <SidebarTrigger className="md:hidden"/>
+                                        <h2 className="text-lg font-semibold ml-2 md:hidden">Filters & Sort</h2>
+                                    </div>
+                                )}
                                 <BusResults 
                                     query={query}
                                     buses={filteredBuses}
