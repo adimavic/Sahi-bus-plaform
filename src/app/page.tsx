@@ -14,6 +14,7 @@ import { PanelLeft } from 'lucide-react';
 import { Filters } from '@/components/filters';
 import { generateMockBuses } from '@/lib/data';
 import Image from 'next/image';
+import { Footer } from '@/components/layout/footer';
 
 export default function Home() {
     const [query, setQuery] = useState<SearchQuery | null>(null);
@@ -105,12 +106,12 @@ export default function Home() {
         // Filter by time
         if (selectedTimeSlots.length > 0) {
             buses = buses.filter(bus => {
-                const busDepartureHour = parseTimeToHour(bus.departureTime);
+                const busDateHour = parseTimeToHour(bus.date);
                 return selectedTimeSlots.some(slot => {
-                    if (slot === 'before-6') return busDepartureHour < 6;
-                    if (slot === '6-12') return busDepartureHour >= 6 && busDepartureHour < 12;
-                    if (slot === '12-18') return busDepartureHour >= 12 && busDepartureHour < 18;
-                    if (slot === 'after-18') return busDepartureHour >= 18;
+                    if (slot === 'before-6') return busDateHour < 6;
+                    if (slot === '6-12') return busDateHour >= 6 && busDateHour < 12;
+                    if (slot === '12-18') return busDateHour >= 12 && busDateHour < 18;
+                    if (slot === 'after-18') return busDateHour >= 18;
                     return false;
                 });
             });
@@ -135,8 +136,8 @@ export default function Home() {
                     return getMinPrice(a) - getMinPrice(b);
                 case 'rating':
                     return b.operator.rating - a.operator.rating;
-                case 'departure':
-                    return parseTimeToHour(a.departureTime) - parseTimeToHour(b.departureTime);
+                case 'date':
+                    return parseTimeToHour(a.date) - parseTimeToHour(b.date);
                 case 'duration':
                     const durationA = parseInt(a.duration.split('h')[0]) * 60 + parseInt(a.duration.split('h')[1]?.replace('m', '') || '0');
                     const durationB = parseInt(b.duration.split('h')[0]) * 60 + parseInt(b.duration.split('h')[1]?.replace('m', '') || '0');
@@ -252,6 +253,8 @@ export default function Home() {
                 onOpenChange={setIsCompareModalOpen}
                 buses={busesToCompare}
             />
+
+            <Footer />
         </div>
     );
 }
