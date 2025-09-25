@@ -72,14 +72,6 @@ export function Filters({ buses }: FiltersProps) {
             </div>
           </ScrollArea>
         </div>
-        <Separator />
-        <div>
-          <Label className="text-gray-600">Travel Schedule</Label>
-          <div className="flex items-center justify-between mt-2">
-            <span className="text-sm text-muted-foreground">Weekend Trips</span>
-            <Switch />
-          </div>
-        </div>
       </CardContent>
     </Card>
   );

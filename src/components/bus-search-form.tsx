@@ -183,16 +183,6 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                 </Button>
               </div>
             </div>
-             <div className="flex items-center gap-6 mt-4">
-                <div className="flex items-center space-x-2">
-                    <Switch id="weekday-travel" />
-                    <Label htmlFor="weekday-travel">Weekday Travel</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                    <Switch id="weekend-travel" defaultChecked/>
-                    <Label htmlFor="weekend-travel">Weekend Travel</Label>
-                </div>
-            </div>
           </form>
         </Form>
       </CardContent>
