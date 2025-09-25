@@ -91,13 +91,13 @@ export const generateMockBuses = (query: SearchQuery): Bus[] => {
       destination: query.destination,
       features: getRandomSubset(features, 1),
       otas: getOtas(query.country, basePrice),
-      directBooking: Math.random() > 0.7 ? {
+      directBooking: {
           name: operator.name,
           price: `${query.country === 'IN' ? '₹' : '$'}${Math.floor(basePrice - 20)}`,
           color: '#333333',
           textColor: 'white',
           url: '#'
-      } : undefined
+      }
     };
     results.push(bus);
   }
