@@ -34,7 +34,7 @@ export function BusResults({ query, buses, isSearching, compareIds, toggleCompar
     return (
       <div className="space-y-4">
         {[...Array(3)].map((_, i) => (
-          <div key={i} className="border rounded-2xl p-5 space-y-4">
+          <div key={i} className="border rounded-2xl p-5 space-y-4 bg-white">
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-4">
                 <Skeleton className="h-12 w-12 rounded-full" />
@@ -57,22 +57,13 @@ export function BusResults({ query, buses, isSearching, compareIds, toggleCompar
     );
   }
 
-  if (!query) {
-    return (
-      <div className="text-center py-16 text-muted-foreground border-2 border-dashed rounded-lg">
-        <p className="font-medium">Your search results will appear here</p>
-        <p className="text-sm">Enter your route and travel date to find buses.</p>
-      </div>
-    );
-  }
-  
   if (buses.length > 0 && paginatedBuses.length === 0 && currentPage > 1) {
     setCurrentPage(totalPages);
   }
 
   if (buses.length === 0) {
     return (
-      <div className="text-center py-16 text-muted-foreground border-2 border-dashed rounded-lg">
+      <div className="text-center py-16 text-muted-foreground border-2 border-dashed rounded-lg bg-white">
         <p className="font-medium">No buses found for this route</p>
         <p className="text-sm">Try adjusting your search criteria or date.</p>
       </div>

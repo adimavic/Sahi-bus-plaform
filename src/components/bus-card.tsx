@@ -56,7 +56,7 @@ export function BusCard({ bus, isComparing, onCompareToggle, canCompare }: BusCa
   }, null as OTA | null);
 
   return (
-    <Card className="rounded-2xl shadow-md p-5 hover:shadow-lg hover:-translate-y-1 transition-all">
+    <Card className="rounded-2xl shadow-md p-5 hover:shadow-lg hover:-translate-y-1 transition-all bg-white">
       <CardContent className="p-0 flex flex-col md:flex-row justify-between items-center gap-4">
         
         {/* Left Section */}

@@ -130,7 +130,7 @@ export default function Home() {
                             alt="Scenic bus route"
                             fill
                             className="object-cover z-0 opacity-20"
-                            data-ai-hint="ocean waves"
+                            data-ai-hint="grand central station"
                             priority
                         />
                     </div>
@@ -149,10 +149,10 @@ export default function Home() {
                 </div>
 
                 <div className="flex-1 bg-background">
-                     <div className="container flex py-6 md:py-10">
+                    <div className="container flex py-6 md:py-10">
                         {query && (
-                            <Sidebar>
-                                <SidebarContent>
+                            <div className="flex w-full gap-8">
+                                <aside className="w-1/4 hidden md:block">
                                     <Filters
                                         operators={operators}
                                         maxPrice={maxPrice}
@@ -165,26 +165,44 @@ export default function Home() {
                                         selectedOperators={selectedOperators}
                                         onSelectedOperatorsChange={setSelectedOperators}
                                     />
-                                </SidebarContent>
-                            </Sidebar>
-                        )}
-                        <SidebarInset className="bg-transparent !ml-0">
-                            <main className="flex-1">
-                                {query && (
-                                    <div className="flex items-center mb-4">
-                                        <SidebarTrigger className="md:hidden"/>
-                                        <h2 className="text-lg font-semibold ml-2 md:hidden">Filters & Sort</h2>
+                                </aside>
+                                <main className="w-full md:w-3/4">
+                                     <div className="flex items-center mb-4 md:hidden">
+                                        <SidebarTrigger />
+                                        <h2 className="text-lg font-semibold ml-2">Filters & Sort</h2>
                                     </div>
-                                )}
-                                <BusResults 
-                                    query={query}
-                                    buses={filteredBuses}
-                                    isSearching={isSearching}
-                                    compareIds={compareIds}
-                                    toggleCompare={toggleCompare}
-                                />
-                            </main>
-                        </SidebarInset>
+                                    <BusResults 
+                                        query={query}
+                                        buses={filteredBuses}
+                                        isSearching={isSearching}
+                                        compareIds={compareIds}
+                                        toggleCompare={toggleCompare}
+                                    />
+                                </main>
+                                <Sidebar>
+                                    <SidebarContent>
+                                        <Filters
+                                            operators={operators}
+                                            maxPrice={maxPrice}
+                                            sortBy={sortBy}
+                                            onSortByChange={setSortBy}
+                                            priceRange={priceRange}
+                                            onPriceChange={setPriceRange}
+                                            seatType={seatType}
+                                            onSeatTypeChange={setSeatType}
+                                            selectedOperators={selectedOperators}
+                                            onSelectedOperatorsChange={setSelectedOperators}
+                                        />
+                                    </SidebarContent>
+                                </Sidebar>
+                            </div>
+                        )}
+                         {!query && !isSearching && (
+                            <div className="w-full text-center py-16 text-muted-foreground border-2 border-dashed rounded-lg bg-white">
+                                <p className="font-medium">Your search results will appear here</p>
+                                <p className="text-sm">Enter your route and travel date to find buses.</p>
+                            </div>
+                        )}
                     </div>
                 </div>
                 
