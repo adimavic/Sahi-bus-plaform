@@ -21,7 +21,7 @@ export function OtaButton({ ota, isDirect }: OtaButtonProps) {
         <span className="font-semibold">{ota.name}</span>
         <div className="flex items-center gap-2">
           <span className="font-bold">{ota.price}</span>
-          <ArrowRight className="h-4 w-4 text-accent" />
+          <ArrowRight className="h-4 w-4" />
         </div>
       </a>
     </Button>
@@ -34,7 +34,7 @@ export function OtaButton({ ota, isDirect }: OtaButtonProps) {
           {buttonContent}
         </TooltipTrigger>
         <TooltipContent>
-          <p>{isDirect ? `Go to ${ota.name}` : 'Booking via OTA - Coming Soon!'}</p>
+          <p>{isDirect ? `Go to ${ota.name}` : 'Book on partner site'}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
