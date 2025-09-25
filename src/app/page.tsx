@@ -123,10 +123,10 @@ export default function Home() {
     return (
         <SidebarProvider>
             <div className="flex min-h-screen w-full flex-col bg-background">
-                <div className="relative bg-navy text-white">
+                <div className="relative bg-navy text-white pb-10">
                     <div className="container relative z-10">
                         <Header />
-                        <div className="pt-20 pb-16 md:pt-28 md:pb-24 text-center">
+                        <div className="pt-16 pb-12 md:pt-20 md:pb-16 text-center">
                             <h1 className="text-4xl font-headline font-bold tracking-tight md:text-5xl drop-shadow-md">
                                 The best bus offers anywhere across India
                             </h1>
@@ -146,7 +146,7 @@ export default function Home() {
                     />
                 </div>
 
-                <div className="flex flex-1">
+                <div className="flex flex-1 container py-6 md:py-10">
                     {query && (
                         <Sidebar>
                             <SidebarContent>
@@ -165,23 +165,21 @@ export default function Home() {
                             </SidebarContent>
                         </Sidebar>
                     )}
-                    <SidebarInset className="bg-background">
-                        <main className="container flex-1 py-6 md:py-10">
-                            <section className="mt-8">
-                                {query && (
-                                    <div className="flex items-center mb-4">
-                                        <SidebarTrigger className="md:hidden"/>
-                                        <h2 className="text-lg font-semibold ml-2 md:hidden">Filters & Sort</h2>
-                                    </div>
-                                )}
-                                <BusResults 
-                                    query={query}
-                                    buses={filteredBuses}
-                                    isSearching={isSearching}
-                                    compareIds={compareIds}
-                                    toggleCompare={toggleCompare}
-                                />
-                            </section>
+                    <SidebarInset className="bg-background !ml-0">
+                        <main className="flex-1">
+                            {query && (
+                                <div className="flex items-center mb-4">
+                                    <SidebarTrigger className="md:hidden"/>
+                                    <h2 className="text-lg font-semibold ml-2 md:hidden">Filters & Sort</h2>
+                                </div>
+                            )}
+                            <BusResults 
+                                query={query}
+                                buses={filteredBuses}
+                                isSearching={isSearching}
+                                compareIds={compareIds}
+                                toggleCompare={toggleCompare}
+                            />
                         </main>
                     </SidebarInset>
                 </div>

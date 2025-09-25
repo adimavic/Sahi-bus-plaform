@@ -17,6 +17,8 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { PopularRoutes } from './popular-routes';
 import { RecentSearches } from './recent-searches';
+import { useLocalStorage } from '@/hooks/use-local-storage';
+
 
 const formSchema = z.object({
   country: z.string().min(1, 'Please select a country.'),
@@ -37,11 +39,7 @@ type BusSearchFormProps = {
 
 export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
   const [selectedCountryCode, setSelectedCountryCode] = React.useState('IN');
-  const [recentSearches] = React.useState<SearchQuery[]>(() => {
-    if (typeof window === 'undefined') return [];
-    const saved = localStorage.getItem('recent-searches');
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [recentSearches] = useLocalStorage<SearchQuery[]>('recent-searches', []);
 
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -73,7 +71,7 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
   }
   
   return (
-    <div className="relative -mb-20">
+    <div className="relative">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="bg-navy-deep rounded-lg p-4">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-x-2 gap-y-4 items-center">
