@@ -166,22 +166,6 @@ export default function Home() {
                                         toggleCompare={toggleCompare}
                                     />
                                 </main>
-                                <Sidebar>
-                                    <SidebarContent>
-                                        <Filters
-                                            operators={operators}
-                                            maxPrice={maxPrice}
-                                            sortBy={sortBy}
-                                            onSortByChange={setSortBy}
-                                            priceRange={priceRange}
-                                            onPriceChange={setPriceRange}
-                                            seatType={seatType}
-                                            onSeatTypeChange={setSeatType}
-                                            selectedOperators={selectedOperators}
-                                            onSelectedOperatorsChange={setSelectedOperators}
-                                        />
-                                    </SidebarContent>
-                                </Sidebar>
                             </div>
                         )}
                          {!query && !isSearching && (
