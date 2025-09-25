@@ -190,9 +190,6 @@ export default function Home() {
                         <h1 className="text-4xl font-headline font-bold tracking-tight md:text-5xl drop-shadow-md">
                             The best bus offers anywhere across India
                         </h1>
-                        <p className="mt-4 text-lg max-w-2xl mx-auto drop-shadow-sm">
-                            Compare. Choose. Travel.
-                        </p>
                     </div>
                      <BusSearchForm onSearch={handleSearch} isSearching={isSearching} />
                 </div>

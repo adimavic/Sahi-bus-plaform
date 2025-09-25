@@ -6,9 +6,12 @@ export function Header() {
     <header className="w-full">
       <div className="container flex h-16 items-center justify-between text-white md:h-20">
         <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center space-x-2">
-            <Bus className="h-7 w-7 text-white" />
-            <span className="inline-block font-headline font-bold text-xl">Sahibus</span>
+          <Link href="/" className="flex flex-col">
+            <div className="flex items-center space-x-2">
+              <Bus className="h-7 w-7 text-white" />
+              <span className="inline-block font-headline font-bold text-xl">Sahibus</span>
+            </div>
+            <p className="text-xs text-white/80 tracking-wide">Compare. Choose. Travel.</p>
           </Link>
         </div>
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
