@@ -136,7 +136,7 @@ export default function Home() {
                     />
                     <div className="container pt-24 pb-12 md:pt-32 md:pb-20 text-center text-white">
                          <h1 className="text-4xl font-headline font-bold tracking-tight md:text-6xl drop-shadow-md">
-                            The best bus offers from anywhere, to everywhere
+                            The best bus offers anywhere across India
                         </h1>
                         <p className="mt-4 text-lg max-w-2xl mx-auto drop-shadow-sm">
                             Compare prices from RedBus, MakeMyTrip, AbhiBus, and more in one place.
