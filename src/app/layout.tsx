@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="https://www.shutterstock.com/image-vector/logo-bus-icon-school-vector-600nw-2381986327.jpg" />
+        <link rel="icon" href="https://i.ibb.co/bRyJbjrv/360-F-320388953-j2-DOQNdq5og1zrpipaq-JWahi-HLqm54ee.jpg" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
