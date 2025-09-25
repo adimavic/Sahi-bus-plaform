@@ -16,8 +16,6 @@ import { Form, FormControl, FormField, FormItem, FormMessage, FormLabel } from '
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent } from '@/components/ui/card';
-import { Switch } from './ui/switch';
-import { Label } from './ui/label';
 
 const formSchema = z.object({
   country: z.string().min(1, 'Please select a country.'),

@@ -21,7 +21,7 @@ export function RecentSearches({ searches, onSearch }: RecentSearchesProps) {
   }
 
   return (
-    <div className="mt-4">
+    <div className="mt-6">
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
         <History className="h-4 w-4" />
         <h3 className="font-medium">Recent Searches:</h3>

@@ -13,6 +13,7 @@ import { SidebarProvider, Sidebar, SidebarInset, SidebarContent, SidebarTrigger 
 import { Filters } from '@/components/filters';
 import { PopularRoutes } from '@/components/popular-routes';
 import { generateMockBuses } from '@/lib/data';
+import Image from 'next/image';
 
 export default function Home() {
     const [query, setQuery] = useState<SearchQuery | null>(null);
@@ -75,7 +76,7 @@ export default function Home() {
     const getMinPrice = (bus: Bus) => {
         const prices = [...bus.otas, bus.directBooking]
             .filter(Boolean)
-            .map(ota => parseFloat(ota!.price.replace(/[^0-9.-]+/g, '')));
+            .map(ota => parseFloat(ota!.price.replace(/[^0-9.]/g, '')));
         return Math.min(...prices);
     }
     
@@ -123,19 +124,26 @@ export default function Home() {
 
     return (
         <SidebarProvider>
-            <div className="flex min-h-screen w-full flex-col bg-background">
-                <Header />
-                 <section className="bg-primary text-primary-foreground py-12 md:py-20">
-                    <div className="container text-center">
-                        <h1 className="text-3xl font-headline font-bold tracking-tight md:text-5xl">
-                            Find The Best Bus Deals
+            <div className="flex min-h-screen w-full flex-col">
+                <div className="relative">
+                    <Header />
+                    <Image
+                        src="https://picsum.photos/seed/ocean/1800/800"
+                        alt="Ocean waves"
+                        fill
+                        className="object-cover -z-10"
+                        data-ai-hint="ocean waves"
+                    />
+                    <div className="container pt-24 pb-12 md:pt-32 md:pb-20 text-center text-white">
+                         <h1 className="text-4xl font-headline font-bold tracking-tight md:text-6xl drop-shadow-md">
+                            The best bus offers from anywhere, to everywhere
                         </h1>
-                        <p className="mt-4 text-lg text-primary-foreground/80 max-w-2xl mx-auto">
+                        <p className="mt-4 text-lg max-w-2xl mx-auto drop-shadow-sm">
                             Compare prices from RedBus, MakeMyTrip, AbhiBus, and more in one place.
                         </p>
-                        <PopularRoutes onSearch={handleSearch} />
                     </div>
-                </section>
+                </div>
+
                 <div className="flex flex-1">
                     <Sidebar>
                         <SidebarContent>
@@ -153,10 +161,11 @@ export default function Home() {
                             />
                         </SidebarContent>
                     </Sidebar>
-                    <SidebarInset className="-mt-16">
+                    <SidebarInset className="-mt-16 bg-transparent">
                         <main className="container flex-1 py-6 md:py-10">
                             <section className="max-w-5xl mx-auto">
                                 <BusSearchForm onSearch={handleSearch} isSearching={isSearching} />
+                                <PopularRoutes onSearch={handleSearch} />
                                 <RecentSearches searches={recentSearches} onSearch={handleSearch} />
                             </section>
 
