@@ -78,7 +78,7 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
           <form onSubmit={form.handleSubmit(onSubmit)} className="bg-navy-deep rounded-lg p-4">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-x-2 gap-y-4 items-center">
               
-              <div className="md:col-span-5">
+              <div className="md:col-span-3">
                  <FormField
                   control={form.control}
                   name="source"
@@ -109,8 +109,7 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                     </Button>
               </div>
 
-
-              <div className="md:col-span-6">
+              <div className="md:col-span-3">
                 <FormField
                   control={form.control}
                   name="destination"
@@ -135,7 +134,7 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                 />
               </div>
               
-               <div className="md:col-span-12">
+               <div className="md:col-span-3">
                  <FormField
                   control={form.control}
                   name="date"
@@ -153,7 +152,7 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                             >
                                <div className="text-left">
                                     <p className="text-xs text-gray-400">Depart</p>
-                                    {field.value ? <span className="font-semibold">{format(field.value, 'dd/MM/yyyy')}</span> : <span>Pick a date</span>}
+                                    {field.value ? <span className="font-semibold">{format(field.value, 'MMM d, yyyy')}</span> : <span>Pick a date</span>}
                                </div>
                             </Button>
                           </FormControl>
@@ -174,8 +173,8 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                 />
               </div>
 
-               <div className="md:col-span-12">
-                <Button type="submit" disabled={isSearching} className="w-full h-12 rounded-lg text-lg font-bold bg-primary hover:bg-primary/90 transition-transform">
+               <div className="md:col-span-2">
+                <Button type="submit" disabled={isSearching} className="w-full h-16 rounded-lg text-lg font-bold bg-primary hover:bg-primary/90 transition-transform">
                   {isSearching ? (
                     <Loader2 className="h-6 w-6 animate-spin" />
                   ) : "Search"}
