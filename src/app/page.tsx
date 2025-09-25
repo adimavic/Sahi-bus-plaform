@@ -191,7 +191,7 @@ export default function Home() {
                             The best bus offers anywhere across India
                         </h1>
                         <p className="mt-4 text-lg max-w-2xl mx-auto drop-shadow-sm">
-                            Compare prices from RedBus, MakeMyTrip, AbhiBus, and more in one place.
+                            Compare. Choose. Travel.
                         </p>
                     </div>
                      <BusSearchForm onSearch={handleSearch} isSearching={isSearching} />
