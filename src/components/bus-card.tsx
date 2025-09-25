@@ -10,7 +10,6 @@ import { Label } from './ui/label';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
-import { Button } from '@/components/ui/button';
 
 type BusCardProps = {
   bus: Bus;
@@ -116,10 +115,6 @@ export function BusCard({ bus, isComparing, onCompareToggle, canCompare }: BusCa
                     />
                 )}
             </div>
-
-             <Button className="mt-2 w-full max-w-[200px] rounded-full font-semibold transition hover:scale-105">
-                Book Now
-             </Button>
         </div>
 
       </CardContent>
