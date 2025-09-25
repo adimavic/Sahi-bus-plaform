@@ -12,7 +12,7 @@ import { countries } from '@/lib/data';
 import type { SearchQuery } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent } from '@/components/ui/card';
@@ -60,11 +60,11 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
   }
   
   return (
-    <Card className="shadow-md rounded-xl">
+    <Card className="shadow-lg rounded-2xl">
       <CardContent className="p-4 sm:p-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-start">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
               
               <div className="md:col-span-3">
                 <FormField
@@ -72,10 +72,9 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                   name="country"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-gray-600">Country</FormLabel>
                       <Select onValueChange={(value) => { field.onChange(value); setSelectedCountryCode(value); }} defaultValue={field.value}>
                         <FormControl>
-                          <SelectTrigger className="shadow-sm">
+                          <SelectTrigger className="shadow-sm rounded-full h-12 text-base">
                             <SelectValue placeholder="Select a country" />
                           </SelectTrigger>
                         </FormControl>
@@ -96,18 +95,17 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                 />
               </div>
 
-              <div className="md:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="md:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4">
                  <FormField
                   control={form.control}
                   name="source"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-gray-600">From</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
-                          <SelectTrigger className="shadow-sm">
-                            <MapPin className="mr-2 h-4 w-4 text-muted"/>
-                            <SelectValue placeholder="Select source" />
+                          <SelectTrigger className="shadow-sm rounded-full h-12 text-base">
+                            <MapPin className="mr-2 h-5 w-5 text-muted"/>
+                            <SelectValue placeholder="From" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -124,12 +122,11 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                   name="destination"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-gray-600">To</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
-                           <SelectTrigger className="shadow-sm">
-                            <MapPin className="mr-2 h-4 w-4 text-muted"/>
-                            <SelectValue placeholder="Select destination" />
+                           <SelectTrigger className="shadow-sm rounded-full h-12 text-base">
+                            <MapPin className="mr-2 h-5 w-5 text-muted"/>
+                            <SelectValue placeholder="To" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -146,18 +143,17 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                   name="date"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-gray-600">Travel Date</FormLabel>
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>
                             <Button
                               variant={'outline'}
                               className={cn(
-                                'w-full justify-start text-left font-normal shadow-sm',
+                                'w-full justify-start text-left font-normal shadow-sm rounded-full h-12 text-base',
                                 !field.value && 'text-muted-foreground'
                               )}
                             >
-                              <CalendarIcon className="mr-2 h-4 w-4" />
+                              <CalendarIcon className="mr-2 h-5 w-5" />
                               {field.value ? format(field.value, 'PPP') : <span>Pick a date</span>}
                             </Button>
                           </FormControl>
@@ -178,14 +174,15 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                 />
               </div>
 
-              <div className="md:col-span-1 flex items-end h-full">
-                <Button type="submit" disabled={isSearching} className="w-full h-[2.5rem] rounded-lg hover:bg-blue-700 transition-transform hover:scale-105">
+              <div className="md:col-span-2">
+                <Button type="submit" disabled={isSearching} className="w-full h-12 rounded-full text-base font-bold hover:bg-primary/90 transition-transform hover:scale-105">
                   {isSearching ? (
-                    <Loader2 className="h-5 w-5 animate-spin" />
+                    <Loader2 className="h-6 w-6 animate-spin" />
                   ) : (
-                    <Search className="h-5 w-5" />
+                    <>
+                      <Search className="h-5 w-5 mr-2" /> Search Buses
+                    </>
                   )}
-                  <span className="sr-only">Search</span>
                 </Button>
               </div>
             </div>

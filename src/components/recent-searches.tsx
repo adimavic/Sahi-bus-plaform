@@ -31,7 +31,7 @@ export function RecentSearches({ searches, onSearch }: RecentSearchesProps) {
           <button
             key={index}
             onClick={() => onSearch(search)}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-secondary/50 hover:bg-secondary rounded-full text-sm font-medium text-secondary-foreground transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-full text-sm font-medium text-gray-700 transition-colors"
           >
             <span>{search.source}</span>
             <ArrowRight className="h-3 w-3 text-muted-foreground" />

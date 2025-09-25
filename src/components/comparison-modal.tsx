@@ -18,7 +18,7 @@ export function ComparisonModal({ isOpen, onOpenChange, buses }: ComparisonModal
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl">
+      <DialogContent className="max-w-5xl">
         <DialogHeader>
           <DialogTitle>Compare Buses</DialogTitle>
           <DialogDescription>
@@ -29,13 +29,13 @@ export function ComparisonModal({ isOpen, onOpenChange, buses }: ComparisonModal
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="font-semibold">Feature</TableHead>
+                <TableHead className="font-semibold text-gray-800">Feature</TableHead>
                 {buses.map((bus) => (
                   <TableHead key={bus.id} className="text-center">
                     <p className="font-headline font-bold">{bus.operator.name}</p>
-                    <div className="flex items-center justify-center gap-1 text-sm text-muted-foreground">
-                        <Star className="w-4 h-4 fill-yellow-400 text-yellow-500" />
-                        <span>{bus.operator.rating.toFixed(1)}</span>
+                    <div className="flex items-center justify-center gap-1 text-sm text-yellow-500">
+                        <Star className="w-4 h-4 fill-current" />
+                        <span className="font-semibold">{bus.operator.rating.toFixed(1)}</span>
                     </div>
                   </TableHead>
                 ))}
@@ -52,13 +52,13 @@ export function ComparisonModal({ isOpen, onOpenChange, buses }: ComparisonModal
                 <TableCell className="font-medium">Timings</TableCell>
                 {buses.map((bus) => (
                   <TableCell key={bus.id} className="text-center text-sm">
-                    {bus.departureTime} - {bus.arrivalTime} ({bus.duration})
+                    {bus.departureTime} - {bus.arrivalTime} <span className="text-muted-foreground">({bus.duration})</span>
                   </TableCell>
                 ))}
               </TableRow>
               {allFeatures.map(feature => (
                 <TableRow key={feature}>
-                    <TableCell className="font-medium">
+                    <TableCell className="font-medium flex items-center gap-2">
                         <FeatureIcon feature={feature} />
                     </TableCell>
                     {buses.map(bus => (
@@ -77,8 +77,8 @@ export function ComparisonModal({ isOpen, onOpenChange, buses }: ComparisonModal
                 {buses.map(bus => (
                     <TableCell key={bus.id} className="text-center">
                         <div className="flex flex-col gap-2">
-                            {bus.otas.map(ota => <OtaButton key={ota.name} ota={ota} isDirect={false} />)}
-                            {bus.directBooking && <OtaButton ota={bus.directBooking} isDirect={true} />}
+                            {bus.otas.map(ota => <OtaButton key={ota.name} ota={ota} isDirect={false} isCheapest={false} />)}
+                            {bus.directBooking && <OtaButton ota={bus.directBooking} isDirect={true} isCheapest={false} />}
                         </div>
                     </TableCell>
                 ))}

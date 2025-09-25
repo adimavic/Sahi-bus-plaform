@@ -21,9 +21,9 @@ export function FeatureIcon({ feature }: FeatureIconProps) {
   };
 
   return (
-    <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+    <div className="flex items-center gap-1.5 text-sm text-gray-600 px-2 py-1 bg-gray-100 rounded-full">
       {getIcon()}
-      <span>{feature}</span>
+      <span className="font-medium">{feature}</span>
     </div>
   );
 }

@@ -7,9 +7,9 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { Slider } from '@/components/ui/slider';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Switch } from '@/components/ui/switch';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Button } from './ui/button';
 
 interface FiltersProps {
   buses: Bus[];
@@ -26,9 +26,9 @@ export function Filters({ buses }: FiltersProps) {
       </CardHeader>
       <CardContent className="space-y-6">
         <div>
-          <Label htmlFor="sort-by">Sort by</Label>
+          <Label htmlFor="sort-by" className="text-gray-600">Sort by</Label>
           <Select defaultValue="price">
-            <SelectTrigger id="sort-by">
+            <SelectTrigger id="sort-by" className="rounded-full">
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
             <SelectContent>
@@ -41,7 +41,7 @@ export function Filters({ buses }: FiltersProps) {
         </div>
         <Separator />
         <div>
-          <Label>Price Range</Label>
+          <Label className="text-gray-600">Price Range</Label>
           <div className='mt-4'>
             <Slider defaultValue={[maxPrice]} max={maxPrice} step={10} />
           </div>
@@ -52,26 +52,20 @@ export function Filters({ buses }: FiltersProps) {
         </div>
         <Separator />
         <div>
-          <Label>Seat Type</Label>
-          <div className="space-y-2 mt-2">
-            <div className="flex items-center space-x-2">
-              <Checkbox id="seater" />
-              <Label htmlFor="seater" className="font-normal">Seater</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox id="sleeper" />
-              <Label htmlFor="sleeper" className="font-normal">Sleeper</Label>
-            </div>
+          <Label className="text-gray-600">Seat Type</Label>
+          <div className="flex gap-2 mt-2">
+             <Button variant="outline" className="rounded-full flex-1 data-[active=true]:bg-primary/10 data-[active=true]:border-primary data-[active=true]:text-primary" data-active={true}>Seater</Button>
+             <Button variant="outline" className="rounded-full flex-1">Sleeper</Button>
           </div>
         </div>
         <Separator />
         <div>
-          <Label>Operators</Label>
+          <Label className="text-gray-600">Operators</Label>
           <ScrollArea className="h-32 mt-2">
             <div className="space-y-2">
               {operators.map(op => (
                 <div key={op} className="flex items-center space-x-2">
-                  <Checkbox id={op} />
+                  <Switch id={op} />
                   <Label htmlFor={op} className="font-normal">{op}</Label>
                 </div>
               ))}
@@ -80,9 +74,9 @@ export function Filters({ buses }: FiltersProps) {
         </div>
         <Separator />
         <div>
-          <Label>Travel Schedule</Label>
+          <Label className="text-gray-600">Travel Schedule</Label>
           <div className="flex items-center justify-between mt-2">
-            <span className="text-sm text-muted-foreground">Showing weekday trips.</span>
+            <span className="text-sm text-muted-foreground">Weekend Trips</span>
             <Switch />
           </div>
         </div>

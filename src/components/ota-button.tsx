@@ -4,27 +4,30 @@ import { OTA } from '@/lib/types';
 import { Button } from './ui/button';
 import { ArrowRight } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
+import { cn } from '@/lib/utils';
 
 type OtaButtonProps = {
   ota: OTA;
   isDirect: boolean;
+  isCheapest: boolean;
 };
 
-export function OtaButton({ ota, isDirect }: OtaButtonProps) {
+export function OtaButton({ ota, isDirect, isCheapest }: OtaButtonProps) {
   const buttonContent = (
-    <Button
-      className="w-full justify-between"
-      style={{ backgroundColor: ota.color, color: ota.textColor }}
-      asChild
-    >
-      <a href={ota.url} target="_blank" rel="noopener noreferrer">
+      <a 
+        href={ota.url} 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className={cn(
+            "flex items-center justify-between w-full px-3 py-1.5 rounded-full text-sm font-medium transition-all",
+            isCheapest ? "bg-green-100 text-green-800 border-2 border-green-500 hover:bg-green-200" : "bg-gray-100 text-gray-700 hover:bg-gray-200",
+            isDirect && "bg-blue-100 text-blue-800 hover:bg-blue-200"
+        )}
+        style={isDirect ? { backgroundColor: ota.color, color: ota.textColor } : {}}
+      >
         <span className="font-semibold">{ota.name}</span>
-        <div className="flex items-center gap-2">
-          <span className="font-bold">{ota.price}</span>
-          <ArrowRight className="h-4 w-4" />
-        </div>
+        <span className="font-bold">{ota.price}</span>
       </a>
-    </Button>
   );
 
   return (
@@ -34,7 +37,7 @@ export function OtaButton({ ota, isDirect }: OtaButtonProps) {
           {buttonContent}
         </TooltipTrigger>
         <TooltipContent>
-          <p>{isDirect ? `Go to ${ota.name}` : 'Book on partner site'}</p>
+          <p>{isCheapest ? "Best Price!" : (isDirect ? `Book direct with ${ota.name}` : 'Book on partner site')}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

@@ -52,6 +52,10 @@ export default {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
         },
+        success: {
+          DEFAULT: 'hsl(var(--success))',
+          foreground: 'hsl(var(--success-foreground))',
+        },
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
@@ -77,11 +81,12 @@ export default {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
+        full: '9999px',
       },
       boxShadow: {
         DEFAULT: '0 2px 8px rgba(0,0,0,0.05)',
         md: '0 4px 12px rgba(0,0,0,0.05)',
-        lg: '0 8px 16px rgba(0,0,0,0.05)',
+        lg: '0 8px 16px rgba(0,0,0,0.1)',
       },
       keyframes: {
         'accordion-down': {

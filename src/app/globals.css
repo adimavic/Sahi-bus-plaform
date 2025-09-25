@@ -16,23 +16,26 @@
     --primary: 224 76% 48%; /* #2563EB */
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 210 40% 96.1%;
+    --secondary: 38 92% 50%; /* #F59E0B */
     --secondary-foreground: 222.2 47.4% 11.2%;
 
     --muted: 215 14% 47%; /* #6B7280 */
     --muted-foreground: 215.4 16.3% 56.9%;
 
-    --accent: 38 92% 50%; /* #F59E0B */
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 224 76% 48%; /* Same as primary for highlights */
+    --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 84% 60%; /* #EF4444 */
     --destructive-foreground: 210 40% 98%;
+
+    --success: 158 64% 42%; /* #10B981 */
+    --success-foreground: 210 40% 98%;
 
     --border: 216 33% 91%; /* #E5E7EB */
     --input: 216 33% 91%;
     --ring: 224 76% 48%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 222 47% 11%;
     --sidebar-primary: 224 76% 48%;
