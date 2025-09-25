@@ -8,7 +8,7 @@ export function Header() {
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center space-x-2">
             <Bus className="h-6 w-6 text-primary" />
-            <span className="inline-block font-headline font-bold text-lg">subbus</span>
+            <span className="inline-block font-headline font-bold text-lg">Sub-Bus</span>
           </Link>
         </div>
       </div>
