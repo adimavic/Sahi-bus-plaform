@@ -73,7 +73,7 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
   return (
     <div className="relative">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="bg-navy-deep rounded-lg p-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="bg-indigo-darker rounded-lg p-4">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-x-2 gap-y-4 items-center">
               
               <div className="md:col-span-3">
@@ -84,7 +84,7 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                     <FormItem>
                       <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
-                          <SelectTrigger className="shadow-none rounded-md h-16 bg-navy text-white border border-gray-600 focus:ring-2 focus:ring-blue-500 text-base">
+                          <SelectTrigger className="shadow-none rounded-md h-16 bg-indigo-dark text-white border border-indigo-light focus:ring-2 focus:ring-blue-500 text-base">
                             <div className="text-left">
                                 <p className="text-xs text-gray-400">From</p>
                                 <SelectValue placeholder="Select source" className="font-semibold" />
@@ -102,7 +102,7 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
               </div>
 
               <div className="relative md:col-span-1 flex items-center justify-center">
-                    <Button type="button" variant="outline" size="icon" onClick={handleSwap} className="h-8 w-8 rounded-full bg-navy hover:bg-navy-light border-gray-600 text-white">
+                    <Button type="button" variant="outline" size="icon" onClick={handleSwap} className="h-8 w-8 rounded-full bg-indigo-dark hover:bg-indigo-light border-indigo-light text-white">
                       <ArrowRightLeft className="h-4 w-4" />
                     </Button>
               </div>
@@ -115,7 +115,7 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                     <FormItem>
                       <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
-                           <SelectTrigger className="shadow-none rounded-md h-16 bg-navy text-white border border-gray-600 focus:ring-2 focus:ring-blue-500 text-base">
+                           <SelectTrigger className="shadow-none rounded-md h-16 bg-indigo-dark text-white border border-indigo-light focus:ring-2 focus:ring-blue-500 text-base">
                              <div className="text-left">
                                 <p className="text-xs text-gray-400">To</p>
                                 <SelectValue placeholder="Select destination" className="font-semibold" />
@@ -144,7 +144,7 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                             <Button
                               variant={'ghost'}
                               className={cn(
-                                'w-full justify-start text-left font-normal shadow-none rounded-md h-16 bg-navy text-white border border-gray-600 hover:bg-navy-light focus:ring-2 focus:ring-blue-500 text-base',
+                                'w-full justify-start text-left font-normal shadow-none rounded-md h-16 bg-indigo-dark text-white border border-indigo-light hover:bg-indigo-light focus:ring-2 focus:ring-blue-500 text-base',
                                 !field.value && 'text-muted-foreground'
                               )}
                             >

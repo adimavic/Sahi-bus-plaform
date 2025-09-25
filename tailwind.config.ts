@@ -59,10 +59,12 @@ export default {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
-        navy: {
-          DEFAULT: '#07102e',
-          light: '#101d4a',
-          deep: '#050c24',
+        indigo: {
+          light: '#3730a3',
+          DEFAULT: '#312e81',
+          dark: '#282566',
+          darker: '#1e1b4b',
+          deep: '#1E1B4B',
         },
         chart: {
           '1': 'hsl(var(--chart-1))',

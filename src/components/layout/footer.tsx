@@ -31,11 +31,11 @@ export function Footer() {
                 <Faq />
                 <PromoSection />
             </div>
-            <div className="bg-navy-deep text-white">
+            <div className="bg-indigo-darker text-white">
                 <div className="container py-12">
                     <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
                         <div className="col-span-2 md:col-span-4 lg:col-span-1">
-                             <Button variant="outline" className="bg-transparent border-gray-600 hover:bg-navy-light w-full justify-start text-left h-auto">
+                             <Button variant="outline" className="bg-transparent border-indigo-light hover:bg-indigo-dark w-full justify-start text-left h-auto">
                                 <Globe className="mr-3 h-5 w-5" />
                                 <div>
                                     <p className="text-xs">Language & Currency</p>
@@ -74,7 +74,7 @@ export function Footer() {
                         </div>
                     </div>
                 </div>
-                 <div className="container border-t border-gray-800 py-6 text-center text-xs text-gray-400">
+                 <div className="container border-t border-indigo-light py-6 text-center text-xs text-gray-400">
                     <p>&copy; Sahibus Ltd 2024 - {new Date().getFullYear()}</p>
                 </div>
             </div>

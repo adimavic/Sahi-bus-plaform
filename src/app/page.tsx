@@ -172,7 +172,7 @@ export default function Home() {
 
     return (
         <div className="flex min-h-screen w-full flex-col">
-            <div className="relative bg-navy text-white">
+            <div className="relative bg-indigo-deep text-white">
                 <div className="absolute inset-0">
                     <Image
                         src="https://picsum.photos/seed/bus-travel/1800/600"
@@ -182,7 +182,7 @@ export default function Home() {
                         data-ai-hint="grand central station"
                         priority
                     />
-                     <div className="absolute inset-0 bg-navy opacity-80"></div>
+                     <div className="absolute inset-0 bg-indigo-deep opacity-80"></div>
                 </div>
                 <div className="container relative z-10">
                     <Header />
