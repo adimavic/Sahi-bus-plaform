@@ -154,7 +154,7 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                               )}
                             >
                               <CalendarIcon className="mr-2 h-5 w-5" />
-                              {field.value ? format(field.value, 'PPP') : <span>Pick a date</span>}
+                              {field.value ? format(field.value, 'MMM d, yyyy') : <span>Pick a date</span>}
                             </Button>
                           </FormControl>
                         </PopoverTrigger>

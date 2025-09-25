@@ -1,6 +1,5 @@
 import { Bus } from 'lucide-react';
 import Link from 'next/link';
-import { Button } from '../ui/button';
 
 export function Header() {
   return (
@@ -19,7 +18,6 @@ export function Header() {
             <Link href="#" className="hover:text-primary transition-colors">Help</Link>
         </nav>
         <div>
-            <Button className="rounded-full font-semibold">Login / Sign Up</Button>
         </div>
       </div>
     </header>
