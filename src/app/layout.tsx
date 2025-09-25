@@ -3,8 +3,8 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'Sahibus',
-  description: 'Compare bus ticket prices and find the best deals.',
+  title: 'SahiBus Offers',
+  description: 'Find the best bus ticket offers with SahiBus.',
 };
 
 export default function RootLayout({
