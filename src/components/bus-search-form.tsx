@@ -75,10 +75,10 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
   return (
     <div className="relative -mb-20">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="bg-navy-deep rounded-lg p-2">
-            <div className="grid grid-cols-1 md:grid-cols-10 gap-0.5 items-center">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="bg-navy-deep rounded-lg p-4">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-x-2 gap-y-4 items-center">
               
-              <div className="md:col-span-3">
+              <div className="md:col-span-4">
                  <FormField
                   control={form.control}
                   name="source"
@@ -86,7 +86,7 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                     <FormItem>
                       <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
-                          <SelectTrigger className="shadow-none rounded-l-md h-16 bg-navy text-white border-0 focus:ring-2 focus:ring-blue-500 text-base">
+                          <SelectTrigger className="shadow-none rounded-md h-16 bg-navy text-white border border-gray-600 focus:ring-2 focus:ring-blue-500 text-base">
                             <div className="text-left">
                                 <p className="text-xs text-gray-400">From</p>
                                 <SelectValue placeholder="Select source" className="font-semibold" />
@@ -103,14 +103,14 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                 />
               </div>
 
-              <div className="absolute md:relative left-1/2 md:left-auto top-1/2 md:top-auto -translate-x-1/2 md:translate-x-0 -translate-y-1/2 md:translate-y-0 z-10 md:col-span-1 flex items-center justify-center">
+              <div className="relative md:col-span-1 flex items-center justify-center">
                     <Button type="button" variant="outline" size="icon" onClick={handleSwap} className="h-8 w-8 rounded-full bg-navy hover:bg-navy-light border-gray-600 text-white">
                       <ArrowRightLeft className="h-4 w-4" />
                     </Button>
               </div>
 
 
-              <div className="md:col-span-3">
+              <div className="md:col-span-4">
                 <FormField
                   control={form.control}
                   name="destination"
@@ -118,7 +118,7 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                     <FormItem>
                       <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
-                           <SelectTrigger className="shadow-none rounded-r-md md:rounded-none h-16 bg-navy text-white border-0 focus:ring-2 focus:ring-blue-500 text-base">
+                           <SelectTrigger className="shadow-none rounded-md h-16 bg-navy text-white border border-gray-600 focus:ring-2 focus:ring-blue-500 text-base">
                              <div className="text-left">
                                 <p className="text-xs text-gray-400">To</p>
                                 <SelectValue placeholder="Select destination" className="font-semibold" />
@@ -135,7 +135,7 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                 />
               </div>
               
-               <div className="md:col-span-2">
+               <div className="md:col-span-3">
                  <FormField
                   control={form.control}
                   name="date"
@@ -147,7 +147,7 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                             <Button
                               variant={'ghost'}
                               className={cn(
-                                'w-full justify-start text-left font-normal shadow-none rounded-none h-16 bg-navy text-white border-0 hover:bg-navy-light focus:ring-2 focus:ring-blue-500 text-base',
+                                'w-full justify-start text-left font-normal shadow-none rounded-md h-16 bg-navy text-white border border-gray-600 hover:bg-navy-light focus:ring-2 focus:ring-blue-500 text-base',
                                 !field.value && 'text-muted-foreground'
                               )}
                             >
@@ -174,13 +174,14 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                 />
               </div>
 
-              <div className="md:col-span-2">
-                <Button type="submit" disabled={isSearching} className="w-full h-16 rounded-r-md text-lg font-bold bg-primary hover:bg-primary/90 transition-transform">
+               <div className="md:col-span-4">
+                <Button type="submit" disabled={isSearching} className="w-full h-12 rounded-lg text-lg font-bold bg-primary hover:bg-primary/90 transition-transform">
                   {isSearching ? (
                     <Loader2 className="h-6 w-6 animate-spin" />
                   ) : "Search"}
                 </Button>
               </div>
+
             </div>
           </form>
         </Form>
