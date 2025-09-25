@@ -122,8 +122,18 @@ export default function Home() {
 
     return (
         <SidebarProvider>
-            <div className="flex min-h-screen w-full flex-col bg-background">
+            <div className="flex min-h-screen w-full flex-col">
                 <div className="relative bg-navy text-white pb-10">
+                    <div className="absolute inset-0">
+                        <Image
+                            src="https://picsum.photos/seed/bus-travel/1800/600"
+                            alt="Scenic bus route"
+                            fill
+                            className="object-cover z-0 opacity-20"
+                            data-ai-hint="ocean waves"
+                            priority
+                        />
+                    </div>
                     <div className="container relative z-10">
                         <Header />
                         <div className="pt-16 pb-12 md:pt-20 md:pb-16 text-center">
@@ -136,52 +146,46 @@ export default function Home() {
                         </div>
                          <BusSearchForm onSearch={handleSearch} isSearching={isSearching} />
                     </div>
-
-                    <Image
-                        src="https://picsum.photos/seed/bus-travel/1800/600"
-                        alt="Scenic bus route"
-                        fill
-                        className="object-cover z-0 opacity-20"
-                        data-ai-hint="ocean waves"
-                    />
                 </div>
 
-                <div className="flex flex-1 container py-6 md:py-10">
-                    {query && (
-                        <Sidebar>
-                            <SidebarContent>
-                                <Filters
-                                    operators={operators}
-                                    maxPrice={maxPrice}
-                                    sortBy={sortBy}
-                                    onSortByChange={setSortBy}
-                                    priceRange={priceRange}
-                                    onPriceChange={setPriceRange}
-                                    seatType={seatType}
-                                    onSeatTypeChange={setSeatType}
-                                    selectedOperators={selectedOperators}
-                                    onSelectedOperatorsChange={setSelectedOperators}
+                <div className="flex-1 bg-background">
+                     <div className="container flex py-6 md:py-10">
+                        {query && (
+                            <Sidebar>
+                                <SidebarContent>
+                                    <Filters
+                                        operators={operators}
+                                        maxPrice={maxPrice}
+                                        sortBy={sortBy}
+                                        onSortByChange={setSortBy}
+                                        priceRange={priceRange}
+                                        onPriceChange={setPriceRange}
+                                        seatType={seatType}
+                                        onSeatTypeChange={setSeatType}
+                                        selectedOperators={selectedOperators}
+                                        onSelectedOperatorsChange={setSelectedOperators}
+                                    />
+                                </SidebarContent>
+                            </Sidebar>
+                        )}
+                        <SidebarInset className="bg-transparent !ml-0">
+                            <main className="flex-1">
+                                {query && (
+                                    <div className="flex items-center mb-4">
+                                        <SidebarTrigger className="md:hidden"/>
+                                        <h2 className="text-lg font-semibold ml-2 md:hidden">Filters & Sort</h2>
+                                    </div>
+                                )}
+                                <BusResults 
+                                    query={query}
+                                    buses={filteredBuses}
+                                    isSearching={isSearching}
+                                    compareIds={compareIds}
+                                    toggleCompare={toggleCompare}
                                 />
-                            </SidebarContent>
-                        </Sidebar>
-                    )}
-                    <SidebarInset className="bg-background !ml-0">
-                        <main className="flex-1">
-                            {query && (
-                                <div className="flex items-center mb-4">
-                                    <SidebarTrigger className="md:hidden"/>
-                                    <h2 className="text-lg font-semibold ml-2 md:hidden">Filters & Sort</h2>
-                                </div>
-                            )}
-                            <BusResults 
-                                query={query}
-                                buses={filteredBuses}
-                                isSearching={isSearching}
-                                compareIds={compareIds}
-                                toggleCompare={toggleCompare}
-                            />
-                        </main>
-                    </SidebarInset>
+                            </main>
+                        </SidebarInset>
+                    </div>
                 </div>
                 
                 {compareIds.size > 0 && (
