@@ -153,21 +153,7 @@ export default function Home() {
                     <div className="container flex py-6 md:py-10">
                         {query && (
                             <div className="flex w-full gap-8">
-                               <aside className="w-1/4 hidden md:block">
-                                    <Filters
-                                        operators={operators}
-                                        maxPrice={maxPrice}
-                                        sortBy={sortBy}
-                                        onSortByChange={setSortBy}
-                                        priceRange={priceRange}
-                                        onPriceChange={setPriceRange}
-                                        seatType={seatType}
-                                        onSeatTypeChange={setSeatType}
-                                        selectedOperators={selectedOperators}
-                                        onSelectedOperatorsChange={setSelectedOperators}
-                                    />
-                                </aside>
-                                <main className="w-full md:w-3/4">
+                                <main className="w-full">
                                      <div className="flex items-center mb-4 md:hidden">
                                         <SidebarTrigger />
                                         <h2 className="text-lg font-semibold ml-2">Filters & Sort</h2>
