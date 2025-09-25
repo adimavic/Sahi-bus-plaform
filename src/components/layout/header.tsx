@@ -8,8 +8,8 @@ export function Header() {
         <div className="flex items-center gap-6">
           <Link href="/" className="flex flex-col">
             <div className="flex items-center space-x-2">
-              <Bus className="h-7 w-7 text-white" />
-              <span className="inline-block font-headline font-bold text-xl">Sahibus</span>
+              <Bus className="h-10 w-10 text-white" />
+              <span className="inline-block font-headline font-bold text-3xl">Sahibus</span>
             </div>
             <p className="text-xs text-white/80 tracking-wide">Compare. Choose. Travel.</p>
           </Link>
