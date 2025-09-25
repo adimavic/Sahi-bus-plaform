@@ -11,6 +11,7 @@ import { ComparisonModal } from '@/components/comparison-modal';
 import { useLocalStorage } from '@/hooks/use-local-storage';
 import { SidebarProvider, Sidebar, SidebarInset, SidebarContent, SidebarTrigger } from '@/components/ui/sidebar';
 import { Filters } from '@/components/filters';
+import { PopularRoutes } from '@/components/popular-routes';
 
 export default function Home() {
     const [query, setQuery] = useState<SearchQuery | null>(null);
@@ -55,33 +56,35 @@ export default function Home() {
         <SidebarProvider>
             <div className="flex min-h-screen w-full flex-col bg-background">
                 <Header />
+                 <section className="bg-primary text-primary-foreground py-12 md:py-20">
+                    <div className="container text-center">
+                        <h1 className="text-3xl font-headline font-bold tracking-tight md:text-5xl">
+                            Find The Best Bus Deals
+                        </h1>
+                        <p className="mt-4 text-lg text-primary-foreground/80 max-w-2xl mx-auto">
+                            Compare prices from RedBus, MakeMyTrip, AbhiBus, and more in one place.
+                        </p>
+                        <PopularRoutes onSearch={handleSearch} />
+                    </div>
+                </section>
                 <div className="flex flex-1">
                     <Sidebar>
                         <SidebarContent>
                             <Filters buses={allBuses} />
                         </SidebarContent>
                     </Sidebar>
-                    <SidebarInset>
+                    <SidebarInset className="-mt-16">
                         <main className="container flex-1 py-6 md:py-10">
-                             <div className="flex items-center mb-4 md:hidden">
-                                <SidebarTrigger />
-                                <h2 className="text-lg font-semibold ml-2">Filters & Sort</h2>
-                            </div>
-                            <section className="text-center">
-                                <h1 className="text-3xl font-headline font-bold tracking-tight text-gray-800 md:text-5xl">
-                                    Find The Best Bus Deals
-                                </h1>
-                                <p className="mt-4 text-lg text-muted max-w-2xl mx-auto">
-                                    Your one-stop destination to compare bus ticket prices from top providers and book the cheapest fares.
-                                </p>
-                            </section>
-                            
-                            <section className="mt-8 max-w-4xl mx-auto">
+                            <section className="max-w-5xl mx-auto">
                                 <BusSearchForm onSearch={handleSearch} isSearching={isSearching} />
                                 <RecentSearches searches={recentSearches} onSearch={handleSearch} />
                             </section>
 
                             <section className="mt-12">
+                                <div className="flex items-center mb-4">
+                                    <SidebarTrigger className="md:hidden"/>
+                                    <h2 className="text-lg font-semibold ml-2 md:hidden">Filters & Sort</h2>
+                                </div>
                                 <BusResults 
                                     query={query}
                                     setAllBuses={setAllBuses} 

@@ -5,17 +5,19 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { format } from 'date-fns';
-import { CalendarIcon, Loader2, MapPin, Search } from 'lucide-react';
+import { CalendarIcon, Loader2, MapPin, Search, ArrowRightLeft } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { countries } from '@/lib/data';
 import type { SearchQuery } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormMessage, FormLabel } from '@/components/ui/form';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent } from '@/components/ui/card';
+import { Switch } from './ui/switch';
+import { Label } from './ui/label';
 
 const formSchema = z.object({
   country: z.string().min(1, 'Please select a country.'),
@@ -51,9 +53,15 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
 
   React.useEffect(() => {
     form.setValue('country', selectedCountryCode);
-    form.resetField('source');
-    form.resetField('destination');
   }, [selectedCountryCode, form]);
+  
+  const handleSwap = () => {
+    const source = form.getValues('source');
+    const destination = form.getValues('destination');
+    form.setValue('source', destination);
+    form.setValue('destination', source);
+  };
+
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     onSearch(values as SearchQuery);
@@ -64,29 +72,26 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
       <CardContent className="p-4 sm:p-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-x-4 gap-y-6 items-end">
               
-              <div className="md:col-span-3">
-                <FormField
+              <div className="md:col-span-4">
+                 <FormField
                   control={form.control}
-                  name="country"
+                  name="source"
                   render={({ field }) => (
                     <FormItem>
-                      <Select onValueChange={(value) => { field.onChange(value); setSelectedCountryCode(value); }} defaultValue={field.value}>
+                       <FormLabel>From</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
-                          <SelectTrigger className="shadow-sm rounded-full h-12 text-base">
-                            <SelectValue placeholder="Select a country" />
+                          <SelectTrigger className="shadow-sm rounded-lg h-12 text-base bg-white">
+                            <div className="flex items-center gap-2">
+                                <MapPin className="h-5 w-5 text-muted-foreground"/>
+                                <SelectValue placeholder="Select source" />
+                            </div>
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {countries.map((country) => (
-                            <SelectItem key={country.code} value={country.code}>
-                              <div className="flex items-center gap-2">
-                                <span>{country.flag}</span>
-                                <span>{country.name}</span>
-                              </div>
-                            </SelectItem>
-                          ))}
+                          {selectedCountry?.cities.map((city) => <SelectItem key={city} value={city}>{city}</SelectItem>)}
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -95,38 +100,27 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                 />
               </div>
 
-              <div className="md:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4">
-                 <FormField
-                  control={form.control}
-                  name="source"
-                  render={({ field }) => (
-                    <FormItem>
-                      <Select onValueChange={field.onChange} value={field.value}>
-                        <FormControl>
-                          <SelectTrigger className="shadow-sm rounded-full h-12 text-base">
-                            <MapPin className="mr-2 h-5 w-5 text-muted"/>
-                            <SelectValue placeholder="From" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {selectedCountry?.cities.map((city) => <SelectItem key={city} value={city}>{city}</SelectItem>)}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <div className="md:col-span-1 flex items-center justify-center -mt-2 md:mt-0 md:pb-3">
+                    <Button type="button" variant="ghost" size="icon" onClick={handleSwap} className="h-10 w-10 rounded-full bg-gray-100 hover:bg-gray-200">
+                      <ArrowRightLeft className="h-4 w-4 text-gray-600" />
+                    </Button>
+              </div>
 
+
+              <div className="md:col-span-4">
                 <FormField
                   control={form.control}
                   name="destination"
                   render={({ field }) => (
                     <FormItem>
+                        <FormLabel>To</FormLabel>
                       <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
-                           <SelectTrigger className="shadow-sm rounded-full h-12 text-base">
-                            <MapPin className="mr-2 h-5 w-5 text-muted"/>
-                            <SelectValue placeholder="To" />
+                           <SelectTrigger className="shadow-sm rounded-lg h-12 text-base bg-white">
+                            <div className="flex items-center gap-2">
+                               <MapPin className="h-5 w-5 text-muted-foreground"/>
+                               <SelectValue placeholder="Select destination" />
+                            </div>
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -137,24 +131,27 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                     </FormItem>
                   )}
                 />
+              </div>
               
-                <FormField
+               <div className="md:col-span-3">
+                 <FormField
                   control={form.control}
                   name="date"
                   render={({ field }) => (
                     <FormItem>
+                        <FormLabel>Departure Date</FormLabel>
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>
                             <Button
                               variant={'outline'}
                               className={cn(
-                                'w-full justify-start text-left font-normal shadow-sm rounded-full h-12 text-base',
+                                'w-full justify-start text-left font-normal shadow-sm rounded-lg h-12 text-base bg-white',
                                 !field.value && 'text-muted-foreground'
                               )}
                             >
                               <CalendarIcon className="mr-2 h-5 w-5" />
-                              {field.value ? format(field.value, 'MMM d, yyyy') : <span>Pick a date</span>}
+                              {field.value ? format(field.value, 'dd-MM-yyyy') : <span>Pick a date</span>}
                             </Button>
                           </FormControl>
                         </PopoverTrigger>
@@ -174,8 +171,8 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                 />
               </div>
 
-              <div className="md:col-span-2">
-                <Button type="submit" disabled={isSearching} className="w-full h-12 rounded-full text-base font-bold hover:bg-primary/90 transition-transform hover:scale-105">
+              <div className="md:col-span-12 lg:col-span-3 lg:col-start-10">
+                <Button type="submit" disabled={isSearching} className="w-full h-12 rounded-lg text-base font-bold bg-primary hover:bg-primary/90 transition-transform hover:scale-105">
                   {isSearching ? (
                     <Loader2 className="h-6 w-6 animate-spin" />
                   ) : (
@@ -185,6 +182,16 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                   )}
                 </Button>
               </div>
+            </div>
+             <div className="flex items-center gap-6 mt-4">
+                <div className="flex items-center space-x-2">
+                    <Switch id="weekday-travel" />
+                    <Label htmlFor="weekday-travel">Weekday Travel</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                    <Switch id="weekend-travel" defaultChecked/>
+                    <Label htmlFor="weekend-travel">Weekend Travel</Label>
+                </div>
             </div>
           </form>
         </Form>
