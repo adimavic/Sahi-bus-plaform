@@ -8,7 +8,9 @@ import { BusResults } from '@/components/bus-results';
 import { ComparisonBar } from '@/components/comparison-bar';
 import { ComparisonModal } from '@/components/comparison-modal';
 import { useLocalStorage } from '@/hooks/use-local-storage';
-import { SidebarProvider, Sidebar, SidebarContent, SidebarTrigger } from '@/components/ui/sidebar';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { PanelLeft } from 'lucide-react';
 import { Filters } from '@/components/filters';
 import { generateMockBuses } from '@/lib/data';
 import Image from 'next/image';
@@ -141,112 +143,107 @@ export default function Home() {
 
     
     const busesToCompare = allBuses.filter(bus => compareIds.has(bus.id));
+    
+    const filterComponent = (
+        <Filters 
+            operators={operators}
+            maxPrice={maxPrice}
+            sortBy={sortBy}
+            onSortByChange={setSortBy}
+            priceRange={priceRange}
+            onPriceChange={setPriceRange}
+            seatType={seatType}
+            onSeatTypeChange={setSeatType}
+            selectedOperators={selectedOperators}
+            onSelectedOperatorsChange={setSelectedOperators}
+            departureTime={departureTime}
+            onDepartureTimeChange={setDepartureTime}
+        />
+    );
 
     return (
-        <SidebarProvider>
-            <div className="flex min-h-screen w-full flex-col">
-                <div className="relative bg-navy text-white">
-                    <div className="absolute inset-0">
-                        <Image
-                            src="https://picsum.photos/seed/bus-travel/1800/600"
-                            alt="Scenic bus route"
-                            fill
-                            className="object-cover z-0 opacity-20"
-                            data-ai-hint="grand central station"
-                            priority
-                        />
-                         <div className="absolute inset-0 bg-navy opacity-80"></div>
-                    </div>
-                    <div className="container relative z-10">
-                        <Header />
-                         <div className="pt-16 pb-12 md:pt-20 md:pb-16 text-center">
-                            <h1 className="text-4xl font-headline font-bold tracking-tight md:text-5xl drop-shadow-md">
-                                The best bus offers anywhere across India
-                            </h1>
-                            <p className="mt-4 text-lg max-w-2xl mx-auto drop-shadow-sm">
-                                Compare prices from RedBus, MakeMyTrip, AbhiBus, and more in one place.
-                            </p>
-                        </div>
-                         <BusSearchForm onSearch={handleSearch} isSearching={isSearching} />
-                    </div>
+        <div className="flex min-h-screen w-full flex-col">
+            <div className="relative bg-navy text-white">
+                <div className="absolute inset-0">
+                    <Image
+                        src="https://picsum.photos/seed/bus-travel/1800/600"
+                        alt="Scenic bus route"
+                        fill
+                        className="object-cover z-0 opacity-20"
+                        data-ai-hint="grand central station"
+                        priority
+                    />
+                     <div className="absolute inset-0 bg-navy opacity-80"></div>
                 </div>
-
-                <div className="flex-1 bg-background">
-                    <div className="container flex py-6 md:py-10">
-                        {query && (
-                             <div className="flex w-full gap-8">
-                                <aside className="hidden md:block w-1/4">
-                                     <Filters 
-                                        operators={operators}
-                                        maxPrice={maxPrice}
-                                        sortBy={sortBy}
-                                        onSortByChange={setSortBy}
-                                        priceRange={priceRange}
-                                        onPriceChange={setPriceRange}
-                                        seatType={seatType}
-                                        onSeatTypeChange={setSeatType}
-                                        selectedOperators={selectedOperators}
-                                        onSelectedOperatorsChange={setSelectedOperators}
-                                        departureTime={departureTime}
-                                        onDepartureTimeChange={setDepartureTime}
-                                    />
-                                </aside>
-                                <Sidebar>
-                                    <SidebarContent>
-                                        <Filters 
-                                            operators={operators}
-                                            maxPrice={maxPrice}
-                                            sortBy={sortBy}
-                                            onSortByChange={setSortBy}
-                                            priceRange={priceRange}
-                                            onPriceChange={setPriceRange}
-                                            seatType={seatType}
-                                            onSeatTypeChange={setSeatType}
-                                            selectedOperators={selectedOperators}
-                                            onSelectedOperatorsChange={setSelectedOperators}
-                                            departureTime={departureTime}
-                                            onDepartureTimeChange={setDepartureTime}
-                                        />
-                                    </SidebarContent>
-                                </Sidebar>
-                                <main className="w-full md:w-3/4">
-                                     <div className="flex items-center mb-4 md:hidden">
-                                        <SidebarTrigger />
-                                        <h2 className="text-lg font-semibold ml-2">Filters & Sort</h2>
-                                    </div>
-                                    <BusResults 
-                                        query={query}
-                                        buses={filteredBuses}
-                                        isSearching={isSearching}
-                                        compareIds={compareIds}
-                                        toggleCompare={toggleCompare}
-                                    />
-                                </main>
-                            </div>
-                        )}
-                         {!query && !isSearching && (
-                            <div className="w-full text-center py-16 text-muted-foreground border-2 border-dashed rounded-lg bg-card">
-                                <p className="font-medium">Your search results will appear here</p>
-                                <p className="text-sm">Enter your route and travel date to find buses.</p>
-                            </div>
-                        )}
+                <div className="container relative z-10">
+                    <Header />
+                     <div className="pt-16 pb-12 md:pt-20 md:pb-16 text-center">
+                        <h1 className="text-4xl font-headline font-bold tracking-tight md:text-5xl drop-shadow-md">
+                            The best bus offers anywhere across India
+                        </h1>
+                        <p className="mt-4 text-lg max-w-2xl mx-auto drop-shadow-sm">
+                            Compare prices from RedBus, MakeMyTrip, AbhiBus, and more in one place.
+                        </p>
                     </div>
+                     <BusSearchForm onSearch={handleSearch} isSearching={isSearching} />
                 </div>
-                
-                {compareIds.size > 0 && (
-                     <ComparisonBar 
-                        count={compareIds.size}
-                        onCompare={() => setIsCompareModalOpen(true)}
-                        onClear={() => setCompareIds(new Set())}
-                     />
-                )}
-
-                <ComparisonModal 
-                    isOpen={isCompareModalOpen}
-                    onOpenChange={setIsCompareModalOpen}
-                    buses={busesToCompare}
-                />
             </div>
-        </SidebarProvider>
+
+            <div className="flex-1 bg-background">
+                <div className="container flex flex-col md:flex-row py-6 md:py-10 gap-8">
+                    {query && (
+                         <>
+                            <div className="w-full md:w-1/4">
+                                <div className="md:hidden mb-4">
+                                    <Sheet>
+                                        <SheetTrigger asChild>
+                                            <Button variant="outline" className="w-full">
+                                                <PanelLeft className="mr-2 h-4 w-4" />
+                                                Filters & Sort
+                                            </Button>
+                                        </SheetTrigger>
+                                        <SheetContent side="left">
+                                            {filterComponent}
+                                        </SheetContent>
+                                    </Sheet>
+                                </div>
+                                <div className="hidden md:block">
+                                    {filterComponent}
+                                </div>
+                            </div>
+                            <main className="w-full md:w-3/4">
+                                <BusResults 
+                                    query={query}
+                                    buses={filteredBuses}
+                                    isSearching={isSearching}
+                                    compareIds={compareIds}
+                                    toggleCompare={toggleCompare}
+                                />
+                            </main>
+                        </>
+                    )}
+                     {!query && !isSearching && (
+                        <div className="w-full text-center py-16 text-muted-foreground border-2 border-dashed rounded-lg bg-card">
+                            <p className="font-medium">Your search results will appear here</p>
+                            <p className="text-sm">Enter your route and travel date to find buses.</p>
+                        </div>
+                    )}
+                </div>
+            </div>
+            
+            {compareIds.size > 0 && (
+                 <ComparisonBar 
+                    count={compareIds.size}
+                    onCompare={() => setIsCompareModalOpen(true)}
+                    onClear={() => setCompareIds(new Set())}
+                 />
+            )}
+
+            <ComparisonModal 
+                isOpen={isCompareModalOpen}
+                onOpenChange={setIsCompareModalOpen}
+                buses={busesToCompare}
+            />
+        </div>
     );
 }
