@@ -39,3 +39,5 @@ export type SearchQuery = {
 };
 
 export type SortOption = 'price' | 'rating' | 'departure' | 'duration';
+
+export type TimeSlot = 'before-6' | '6-12' | '12-18' | 'after-18';

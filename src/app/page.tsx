@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useCallback } from 'react';
-import { Bus, SearchQuery, SortOption } from '@/lib/types';
+import { Bus, SearchQuery, SortOption, TimeSlot } from '@/lib/types';
 import { Header } from '@/components/layout/header';
 import { BusSearchForm } from '@/components/bus-search-form';
 import { BusResults } from '@/components/bus-results';
@@ -28,7 +28,7 @@ export default function Home() {
     // Filter states
     const [sortBy, setSortBy] = useState<SortOption>('price');
     const [priceRange, setPriceRange] = useState<number[]>([1000]);
-    const [departureTime, setDepartureTime] = useState<number[]>([0, 24]);
+    const [selectedTimeSlots, setSelectedTimeSlots] = useState<TimeSlot[]>([]);
     const [seatType, setSeatType] = useState<string>('all');
     const [selectedOperators, setSelectedOperators] = useState<string[]>([]);
     
@@ -58,7 +58,7 @@ export default function Home() {
             setSelectedOperators([]);
             setSortBy('price');
             setSeatType('all');
-            setDepartureTime([0, 24]);
+            setSelectedTimeSlots([]);
             setIsSearching(false);
         }, 1000);
     }, [recentSearches, setRecentSearches]);
@@ -102,11 +102,19 @@ export default function Home() {
         // Filter by price
         buses = buses.filter(bus => getMinPrice(bus) <= priceRange[0]);
         
-        // Filter by departure time
-        buses = buses.filter(bus => {
-            const busDepartureHour = parseTimeToHour(bus.departureTime);
-            return busDepartureHour >= departureTime[0] && busDepartureHour <= departureTime[1];
-        });
+        // Filter by time
+        if (selectedTimeSlots.length > 0) {
+            buses = buses.filter(bus => {
+                const busDepartureHour = parseTimeToHour(bus.departureTime);
+                return selectedTimeSlots.some(slot => {
+                    if (slot === 'before-6') return busDepartureHour < 6;
+                    if (slot === '6-12') return busDepartureHour >= 6 && busDepartureHour < 12;
+                    if (slot === '12-18') return busDepartureHour >= 12 && busDepartureHour < 18;
+                    if (slot === 'after-18') return busDepartureHour >= 18;
+                    return false;
+                });
+            });
+        }
 
         // Filter by seat type
         if (seatType !== 'all') {
@@ -139,7 +147,7 @@ export default function Home() {
         });
 
         return buses;
-    }, [allBuses, sortBy, priceRange, seatType, selectedOperators, departureTime]);
+    }, [allBuses, sortBy, priceRange, seatType, selectedOperators, selectedTimeSlots]);
 
     
     const busesToCompare = allBuses.filter(bus => compareIds.has(bus.id));
@@ -156,8 +164,8 @@ export default function Home() {
             onSeatTypeChange={setSeatType}
             selectedOperators={selectedOperators}
             onSelectedOperatorsChange={setSelectedOperators}
-            departureTime={departureTime}
-            onDepartureTimeChange={setDepartureTime}
+            selectedTimeSlots={selectedTimeSlots}
+            onSelectedTimeSlotsChange={setSelectedTimeSlots}
         />
     );
 

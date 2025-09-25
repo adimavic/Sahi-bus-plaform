@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { SortOption } from '@/lib/types';
+import { SortOption, TimeSlot } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -10,6 +10,7 @@ import { Slider } from '@/components/ui/slider';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from './ui/button';
 import { Checkbox } from './ui/checkbox';
+import { Sun, Sunrise, Sunset, Moon } from 'lucide-react';
 
 interface FiltersProps {
   operators: string[];
@@ -22,9 +23,16 @@ interface FiltersProps {
   onSeatTypeChange: (value: string) => void;
   selectedOperators: string[];
   onSelectedOperatorsChange: (value: string[]) => void;
-  departureTime: number[];
-  onDepartureTimeChange: (value: number[]) => void;
+  selectedTimeSlots: TimeSlot[];
+  onSelectedTimeSlotsChange: (value: TimeSlot[]) => void;
 }
+
+const timeSlots: { id: TimeSlot; label: string; icon: React.ElementType }[] = [
+    { id: 'before-6', label: 'Before 6 AM', icon: Moon },
+    { id: '6-12', label: '6 AM - 12 PM', icon: Sunrise },
+    { id: '12-18', label: '12 PM - 6 PM', icon: Sun },
+    { id: 'after-18', label: 'After 6 PM', icon: Sunset },
+];
 
 export function Filters({ 
   operators, 
@@ -37,24 +45,25 @@ export function Filters({
   onSeatTypeChange,
   selectedOperators,
   onSelectedOperatorsChange,
-  departureTime,
-  onDepartureTimeChange
+  selectedTimeSlots,
+  onSelectedTimeSlotsChange
 }: FiltersProps) {
   
   const handleOperatorChange = (operator: string) => {
-    const newSelection = selectedOperators.includes(operator)
-      ? selectedOperators.filter(op => op !== operator)
-      : [...selectedOperators, operator];
-    onSelectedOperatorsChange(newSelection);
+    onSelectedOperatorsChange(
+        selectedOperators.includes(operator)
+        ? selectedOperators.filter(op => op !== operator)
+        : [...selectedOperators, operator]
+    );
   };
   
-  const formatHour = (hour: number) => {
-    const h = Math.floor(hour);
-    const ampm = h >= 12 ? 'PM' : 'AM';
-    const formattedHour = h % 12 === 0 ? 12 : h % 12;
-    return `${formattedHour} ${ampm}`;
-  }
-
+  const handleTimeSlotChange = (slotId: TimeSlot) => {
+    onSelectedTimeSlotsChange(
+        selectedTimeSlots.includes(slotId)
+        ? selectedTimeSlots.filter(id => id !== slotId)
+        : [...selectedTimeSlots, slotId]
+    );
+  };
 
   return (
     <Card className="border-0 shadow-none">
@@ -95,19 +104,29 @@ export function Filters({
         <Separator />
          <div>
           <Label className="text-gray-600">Time</Label>
-          <div className='mt-4'>
-            <Slider 
-              value={departureTime} 
-              onValueChange={onDepartureTimeChange} 
-              max={24} 
-              min={0}
-              step={1} 
-            />
+          <div className="grid grid-cols-2 gap-2 mt-2">
+            {timeSlots.map(({ id, label, icon: Icon }) => (
+                <Button 
+                    key={id}
+                    variant="outline"
+                    className="rounded-lg flex flex-col h-auto items-center justify-center p-2 data-[active=true]:bg-primary/10 data-[active=true]:border-primary data-[active=true]:text-primary"
+                    data-active={selectedTimeSlots.includes(id)}
+                    onClick={() => handleTimeSlotChange(id)}
+                >
+                    <Icon className="h-5 w-5 mb-1" />
+                    <span className="text-xs text-center">{label}</span>
+                </Button>
+            ))}
           </div>
-          <div className="flex justify-between text-sm text-muted-foreground mt-2">
-            <span>{formatHour(departureTime[0])}</span>
-            <span>{formatHour(departureTime[1])}</span>
-          </div>
+            {selectedTimeSlots.length > 0 && (
+                <Button 
+                    variant="link" 
+                    className="text-xs mt-1"
+                    onClick={() => onSelectedTimeSlotsChange([])}
+                >
+                    Clear selection
+                </Button>
+            )}
         </div>
         <Separator />
         <div>
