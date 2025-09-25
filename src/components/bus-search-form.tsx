@@ -149,7 +149,7 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                               )}
                             >
                                <div className="text-left">
-                                    <p className="text-xs text-gray-400">Depart</p>
+                                    <p className="text-xs text-gray-400">Date</p>
                                     {field.value ? <span className="font-semibold">{format(field.value, 'MMM d, yyyy')}</span> : <span>Pick a date</span>}
                                </div>
                             </Button>

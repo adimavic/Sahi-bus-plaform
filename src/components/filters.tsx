@@ -71,7 +71,7 @@ export function Filters({
             <SelectContent>
               <SelectItem value="price">Price</SelectItem>
               <SelectItem value="rating">Rating</SelectItem>
-              <SelectItem value="departure">Departure</SelectItem>
+              <SelectItem value="departure">Time</SelectItem>
               <SelectItem value="duration">Duration</SelectItem>
             </SelectContent>
           </Select>
@@ -94,7 +94,7 @@ export function Filters({
         </div>
         <Separator />
          <div>
-          <Label className="text-gray-600">Departure Time</Label>
+          <Label className="text-gray-600">Time</Label>
           <div className='mt-4'>
             <Slider 
               value={departureTime} 
