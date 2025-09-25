@@ -17,7 +17,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['PT Sans', 'sans-serif'],
+        body: ['Inter', 'sans-serif'],
         headline: ['Poppins', 'sans-serif'],
         code: ['monospace'],
       },
@@ -77,6 +77,11 @@ export default {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
+      },
+      boxShadow: {
+        DEFAULT: '0 2px 8px rgba(0,0,0,0.05)',
+        md: '0 4px 12px rgba(0,0,0,0.05)',
+        lg: '0 8px 16px rgba(0,0,0,0.05)',
       },
       keyframes: {
         'accordion-down': {

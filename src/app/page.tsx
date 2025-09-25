@@ -68,10 +68,10 @@ export default function Home() {
                                 <h2 className="text-lg font-semibold ml-2">Filters & Sort</h2>
                             </div>
                             <section className="text-center">
-                                <h1 className="text-3xl font-headline font-bold tracking-tight md:text-5xl">
+                                <h1 className="text-3xl font-headline font-bold tracking-tight text-gray-800 md:text-5xl">
                                     Find The Best Bus Deals
                                 </h1>
-                                <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+                                <p className="mt-4 text-lg text-muted max-w-2xl mx-auto">
                                     Your one-stop destination to compare bus ticket prices from top providers and book the cheapest fares.
                                 </p>
                             </section>

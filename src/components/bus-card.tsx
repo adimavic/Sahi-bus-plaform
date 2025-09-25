@@ -20,8 +20,8 @@ type BusCardProps = {
 
 const OperatorInfo = ({ operator }: { operator: Operator }) => (
     <div className="flex flex-col">
-        <p className="font-headline font-semibold">{operator.name}</p>
-        <div className="flex items-center gap-1 text-sm text-muted-foreground">
+        <p className="font-headline font-semibold text-gray-800">{operator.name}</p>
+        <div className="flex items-center gap-1 text-sm text-muted">
             <Star className="w-4 h-4 fill-yellow-400 text-yellow-500" />
             <span>{operator.rating.toFixed(1)}</span>
         </div>
@@ -30,15 +30,15 @@ const OperatorInfo = ({ operator }: { operator: Operator }) => (
 
 const TravelInfo = ({ time, city }: { time: string; city: string }) => (
     <div className="flex flex-col">
-        <p className="text-xl font-bold font-headline">{time}</p>
-        <p className="text-sm text-muted-foreground">{city}</p>
+        <p className="text-xl font-bold font-headline text-gray-800">{time}</p>
+        <p className="text-sm text-muted">{city}</p>
     </div>
 );
 
 
 export function BusCard({ bus, isComparing, onCompareToggle, canCompare }: BusCardProps) {
   return (
-    <Card className="hover:shadow-md transition-shadow">
+    <Card className="hover:shadow-md transition-shadow rounded-xl">
       <CardContent className="p-4 grid grid-cols-12 gap-4 items-center">
         <div className="col-span-12 md:col-span-8">
             <div className="flex flex-col sm:flex-row gap-4 justify-between">
@@ -47,9 +47,9 @@ export function BusCard({ bus, isComparing, onCompareToggle, canCompare }: BusCa
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <div className="flex items-center space-x-1">
+                                <div className="flex items-center space-x-2">
                                     <Checkbox id={`compare-${bus.id}`} checked={isComparing} onCheckedChange={onCompareToggle} disabled={!canCompare && !isComparing} />
-                                    <Label htmlFor={`compare-${bus.id}`} className={cn("text-sm font-medium", !canCompare && !isComparing && "text-muted-foreground cursor-not-allowed")}>
+                                    <Label htmlFor={`compare-${bus.id}`} className={cn("text-sm font-medium", !canCompare && !isComparing && "text-muted cursor-not-allowed")}>
                                         Compare
                                     </Label>
                                 </div>
@@ -68,9 +68,9 @@ export function BusCard({ bus, isComparing, onCompareToggle, canCompare }: BusCa
                 <TravelInfo time={bus.departureTime} city={bus.source} />
                 <div className="flex-grow flex items-center justify-center text-center">
                     <div className="w-full">
-                        <p className="text-sm text-muted-foreground">{bus.duration}</p>
+                        <p className="text-sm text-muted">{bus.duration}</p>
                         <div className="w-full h-px bg-border my-1"></div>
-                        <p className="text-xs text-muted-foreground">Direct</p>
+                        <p className="text-xs text-muted">Direct</p>
                     </div>
                 </div>
                 <TravelInfo time={bus.arrivalTime} city={bus.destination} />
