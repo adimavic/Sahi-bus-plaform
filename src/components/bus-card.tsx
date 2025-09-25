@@ -46,7 +46,7 @@ export function BusCard({ bus, isComparing, onCompareToggle, canCompare }: BusCa
                 <div className="flex items-center gap-2">
                     <TooltipProvider>
                         <Tooltip>
-                            <TooltipTrigger>
+                            <TooltipTrigger asChild>
                                 <div className="flex items-center space-x-1">
                                     <Checkbox id={`compare-${bus.id}`} checked={isComparing} onCheckedChange={onCompareToggle} disabled={!canCompare && !isComparing} />
                                     <Label htmlFor={`compare-${bus.id}`} className={cn("text-sm font-medium", !canCompare && !isComparing && "text-muted-foreground cursor-not-allowed")}>
