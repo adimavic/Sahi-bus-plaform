@@ -78,7 +78,7 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
           <form onSubmit={form.handleSubmit(onSubmit)} className="bg-navy-deep rounded-lg p-4">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-x-2 gap-y-4 items-center">
               
-              <div className="md:col-span-4">
+              <div className="md:col-span-5">
                  <FormField
                   control={form.control}
                   name="source"
@@ -110,7 +110,7 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
               </div>
 
 
-              <div className="md:col-span-4">
+              <div className="md:col-span-6">
                 <FormField
                   control={form.control}
                   name="destination"
@@ -135,7 +135,7 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                 />
               </div>
               
-               <div className="md:col-span-3">
+               <div className="md:col-span-12">
                  <FormField
                   control={form.control}
                   name="date"
@@ -174,7 +174,7 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
                 />
               </div>
 
-               <div className="md:col-span-4">
+               <div className="md:col-span-12">
                 <Button type="submit" disabled={isSearching} className="w-full h-12 rounded-lg text-lg font-bold bg-primary hover:bg-primary/90 transition-transform">
                   {isSearching ? (
                     <Loader2 className="h-6 w-6 animate-spin" />
