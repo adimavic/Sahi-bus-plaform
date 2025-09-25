@@ -1,5 +1,6 @@
 'use client';
 
+import React, { useState, useEffect } from 'react';
 import { SearchQuery } from '@/lib/types';
 import { ArrowRight, History } from 'lucide-react';
 
@@ -9,7 +10,13 @@ type RecentSearchesProps = {
 };
 
 export function RecentSearches({ searches, onSearch }: RecentSearchesProps) {
-  if (searches.length === 0) {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient || searches.length === 0) {
     return null;
   }
 
