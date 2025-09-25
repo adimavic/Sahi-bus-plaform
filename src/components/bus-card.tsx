@@ -9,6 +9,7 @@ import { Separator } from './ui/separator';
 import { Checkbox } from './ui/checkbox';
 import { Label } from './ui/label';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
+import { cn } from '@/lib/utils';
 
 type BusCardProps = {
   bus: Bus;

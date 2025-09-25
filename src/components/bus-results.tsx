@@ -10,7 +10,7 @@ import { Switch } from './ui/switch';
 import { Label } from './ui/label';
 import { Button } from './ui/button';
 import { Map } from 'lucide-react';
-import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationNext } from './ui/pagination';
+import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationNext } from '@/components/ui/pagination';
 import { useToast } from '@/hooks/use-toast';
 
 type BusResultsProps = {
