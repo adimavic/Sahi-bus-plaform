@@ -1,28 +1,17 @@
 import { Faq } from "@/components/faq";
 import { PromoSection } from "@/components/promo-section";
-import { Globe, ChevronDown } from "lucide-react";
+import { Globe, Phone, Mail } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 
-const footerLinks = {
-    help: [
-        { title: "Help", href: "#" },
-        { title: "Privacy Settings", href: "#" },
-        { title: "Log in", href: "#" },
-    ],
-    legal: [
-        { title: "Cookie policy", href: "#" },
-        { title: "Privacy policy", href: "#" },
-        { title: "Terms of service", href: "#" },
-        { title: "Company Details", href: "#" },
-    ],
-    discover: [
-        { title: "Explore", href: "#", dropdown: true },
-        { title: "Company", href: "#", dropdown: true },
-        { title: "Partners", href: "#", dropdown: true },
-        { title: "Trips", href: "#", dropdown: true },
-    ]
-}
+const AboutUs = () => (
+    <div className="col-span-2 md:col-span-4 lg:col-span-2 space-y-3 text-sm opacity-80">
+        <h3 className="font-semibold text-white opacity-100">About Us</h3>
+        <p>We’re a team of travel-tech enthusiasts passionate about making bus travel simpler, smarter, and more affordable. Our platform brings together real-time fares from multiple online travel agencies (OTAs) — so you don’t have to open countless tabs or apps to find the best deal.</p>
+        <p>By comparing prices, schedules, seat availability, and amenities in one place, we save you time and money on every journey.</p>
+    </div>
+);
+
 
 export function Footer() {
     return (
@@ -34,48 +23,46 @@ export function Footer() {
             <div className="bg-indigo-darker text-white">
                 <div className="container py-12">
                     <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
-                        <div className="col-span-2 md:col-span-4 lg:col-span-1">
-                             <Button variant="outline" className="bg-transparent border-indigo-light hover:bg-indigo-dark w-full justify-start text-left h-auto">
-                                <Globe className="mr-3 h-5 w-5" />
-                                <div>
-                                    <p className="text-xs">Language & Currency</p>
-                                    <p className="font-semibold">India - English (UK) - ₹ INR</p>
-                                </div>
-                            </Button>
+                        
+                        <AboutUs />
+                        
+                        <div className="text-sm">
+                            <h3 className="font-semibold text-white mb-4">Partners</h3>
+                            <p className="opacity-80">We are proud to partner with leading travel providers like Redbus, Goibibo, MakeMyTrip, Intercity and more to bring you the best deals.</p>
                         </div>
                         
                         <div className="text-sm">
-                            <ul className="space-y-3">
-                                {footerLinks.help.map(link => (
-                                    <li key={link.title}><Link href={link.href} className="opacity-80 hover:opacity-100 hover:underline">{link.title}</Link></li>
-                                ))}
-                            </ul>
-                        </div>
-                        
-                        <div className="text-sm">
+                           <h3 className="font-semibold text-white mb-4">Help</h3>
                            <ul className="space-y-3">
-                                {footerLinks.legal.map(link => (
-                                    <li key={link.title}><Link href={link.href} className="opacity-80 hover:opacity-100 hover:underline">{link.title}</Link></li>
-                                ))}
+                                <li>
+                                    <a href="tel:8668592567" className="flex items-center gap-2 opacity-80 hover:opacity-100 hover:underline">
+                                        <Phone className="h-4 w-4" />
+                                        <span>8668592567</span>
+                                    </a>
+                                </li>
+                                <li>
+                                     <a href="mailto:adityakale732@gmail.com" className="flex items-center gap-2 opacity-80 hover:opacity-100 hover:underline">
+                                        <Mail className="h-4 w-4" />
+                                        <span>adityakale732@gmail.com</span>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
 
-                        <div className="text-sm">
-                            <ul className="space-y-3">
-                                {footerLinks.discover.map(link => (
-                                    <li key={link.title}>
-                                        <Link href={link.href} className="flex justify-between items-center opacity-80 hover:opacity-100 hover:underline">
-                                            <span>{link.title}</span>
-                                            {link.dropdown && <ChevronDown className="h-4 w-4" />}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
+                         <div className="text-sm">
+                             <h3 className="font-semibold text-white mb-4">Language & Currency</h3>
+                             <Button variant="outline" className="bg-transparent border-indigo-light hover:bg-indigo-dark w-full justify-start text-left h-auto">
+                                <Globe className="mr-3 h-5 w-5" />
+                                <div>
+                                    <p className="font-semibold">English (UK) - ₹ INR</p>
+                                </div>
+                            </Button>
                         </div>
+
                     </div>
                 </div>
                  <div className="container border-t border-indigo-light py-6 text-center text-xs text-gray-400">
-                    <p>&copy; Sahibus Ltd 2024 - {new Date().getFullYear()}</p>
+                    <p>&copy; Sahibus Ltd {new Date().getFullYear()}</p>
                 </div>
             </div>
         </footer>
