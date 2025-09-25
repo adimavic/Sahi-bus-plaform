@@ -2,42 +2,26 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { Bus, SearchQuery } from '@/lib/types';
-import { generateMockBuses } from '@/lib/data';
 import { BusCard } from './bus-card';
 import { Skeleton } from './ui/skeleton';
 import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationNext } from '@/components/ui/pagination';
 
 type BusResultsProps = {
   query: SearchQuery | null;
-  setAllBuses: (buses: Bus[]) => void;
+  buses: Bus[];
   isSearching: boolean;
-  setIsSearching: (isSearching: boolean) => void;
   compareIds: Set<string>;
   toggleCompare: (busId: string) => void;
 };
 
 const BUSES_PER_PAGE = 5;
 
-export function BusResults({ query, setAllBuses, isSearching, setIsSearching, compareIds, toggleCompare }: BusResultsProps) {
-  const [buses, setBuses] = useState<Bus[]>([]);
+export function BusResults({ query, buses, isSearching, compareIds, toggleCompare }: BusResultsProps) {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    if (query) {
-      // Reset state for new search
-      setBuses([]);
-      setCurrentPage(1);
-
-      const timer = setTimeout(() => {
-        const mockBuses = generateMockBuses(query);
-        setBuses(mockBuses);
-        setAllBuses(mockBuses);
-        setIsSearching(false);
-      }, 1000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [query, setAllBuses, setIsSearching]);
+    setCurrentPage(1);
+  }, [buses]);
 
   const paginatedBuses = useMemo(() => {
       const startIndex = (currentPage - 1) * BUSES_PER_PAGE;

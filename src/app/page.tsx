@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Bus, SearchQuery } from '@/lib/types';
+import React, { useState, useMemo, useCallback } from 'react';
+import { Bus, SearchQuery, SortOption } from '@/lib/types';
 import { Header } from '@/components/layout/header';
 import { BusSearchForm } from '@/components/bus-search-form';
 import { RecentSearches } from '@/components/recent-searches';
@@ -12,6 +12,7 @@ import { useLocalStorage } from '@/hooks/use-local-storage';
 import { SidebarProvider, Sidebar, SidebarInset, SidebarContent, SidebarTrigger } from '@/components/ui/sidebar';
 import { Filters } from '@/components/filters';
 import { PopularRoutes } from '@/components/popular-routes';
+import { generateMockBuses } from '@/lib/data';
 
 export default function Home() {
     const [query, setQuery] = useState<SearchQuery | null>(null);
@@ -23,7 +24,16 @@ export default function Home() {
 
     const [recentSearches, setRecentSearches] = useLocalStorage<SearchQuery[]>('recent-searches', []);
 
-    const handleSearch = (newQuery: SearchQuery) => {
+    // Filter states
+    const [sortBy, setSortBy] = useState<SortOption>('price');
+    const [priceRange, setPriceRange] = useState<number[]>([1000]);
+    const [seatType, setSeatType] = useState<string>('all');
+    const [selectedOperators, setSelectedOperators] = useState<string[]>([]);
+    
+    const operators = useMemo(() => [...new Set(allBuses.map(bus => bus.operator.name))], [allBuses]);
+    const maxPrice = useMemo(() => Math.max(...allBuses.flatMap(bus => [...bus.otas, bus.directBooking].filter(Boolean).map(ota => parseFloat(ota!.price.replace(/[^0-9.-]+/g,"")))), 0) || 1000, [allBuses]);
+
+    const handleSearch = useCallback((newQuery: SearchQuery) => {
         setIsSearching(true);
         setQuery(newQuery);
         setCompareIds(new Set()); 
@@ -36,7 +46,19 @@ export default function Home() {
             const newRecent = [newQuery, ...recentSearches].slice(0, 5);
             setRecentSearches(newRecent);
         }
-    };
+
+        // Simulate API call
+        setTimeout(() => {
+            const mockBuses = generateMockBuses(newQuery);
+            setAllBuses(mockBuses);
+            const newMaxPrice = Math.max(...mockBuses.flatMap(bus => [...bus.otas, bus.directBooking].filter(Boolean).map(ota => parseFloat(ota!.price.replace(/[^0-9.-]+/g,"")))), 0) || 1000;
+            setPriceRange([newMaxPrice]);
+            setSelectedOperators([]);
+            setSortBy('price');
+            setSeatType('all');
+            setIsSearching(false);
+        }, 1000);
+    }, [recentSearches, setRecentSearches]);
 
     const toggleCompare = (busId: string) => {
         setCompareIds(prev => {
@@ -49,6 +71,53 @@ export default function Home() {
             return newSet;
         });
     };
+
+    const getMinPrice = (bus: Bus) => {
+        const prices = [...bus.otas, bus.directBooking]
+            .filter(Boolean)
+            .map(ota => parseFloat(ota!.price.replace(/[^0-9.-]+/g, '')));
+        return Math.min(...prices);
+    }
+    
+    const filteredBuses = useMemo(() => {
+        let buses = [...allBuses];
+
+        // Filter by price
+        buses = buses.filter(bus => getMinPrice(bus) <= priceRange[0]);
+
+        // Filter by seat type
+        if (seatType !== 'all') {
+            buses = buses.filter(bus => 
+                seatType === 'sleeper' ? bus.features.includes('Sleeper') : !bus.features.includes('Sleeper')
+            );
+        }
+
+        // Filter by operators
+        if (selectedOperators.length > 0) {
+            buses = buses.filter(bus => selectedOperators.includes(bus.operator.name));
+        }
+
+        // Sort buses
+        buses.sort((a, b) => {
+            switch (sortBy) {
+                case 'price':
+                    return getMinPrice(a) - getMinPrice(b);
+                case 'rating':
+                    return b.operator.rating - a.operator.rating;
+                case 'departure':
+                    return a.departureTime.localeCompare(b.departureTime);
+                case 'duration':
+                    const durationA = parseInt(a.duration.split('h')[0]) * 60 + parseInt(a.duration.split('h')[1]?.replace('m', '') || '0');
+                    const durationB = parseInt(b.duration.split('h')[0]) * 60 + parseInt(b.duration.split('h')[1]?.replace('m', '') || '0');
+                    return durationA - durationB;
+                default:
+                    return 0;
+            }
+        });
+
+        return buses;
+    }, [allBuses, sortBy, priceRange, seatType, selectedOperators]);
+
     
     const busesToCompare = allBuses.filter(bus => compareIds.has(bus.id));
 
@@ -70,7 +139,18 @@ export default function Home() {
                 <div className="flex flex-1">
                     <Sidebar>
                         <SidebarContent>
-                            <Filters buses={allBuses} />
+                            <Filters
+                                operators={operators}
+                                maxPrice={maxPrice}
+                                sortBy={sortBy}
+                                onSortByChange={setSortBy}
+                                priceRange={priceRange}
+                                onPriceChange={setPriceRange}
+                                seatType={seatType}
+                                onSeatTypeChange={setSeatType}
+                                selectedOperators={selectedOperators}
+                                onSelectedOperatorsChange={setSelectedOperators}
+                            />
                         </SidebarContent>
                     </Sidebar>
                     <SidebarInset className="-mt-16">
@@ -87,9 +167,8 @@ export default function Home() {
                                 </div>
                                 <BusResults 
                                     query={query}
-                                    setAllBuses={setAllBuses} 
+                                    buses={filteredBuses}
                                     isSearching={isSearching}
-                                    setIsSearching={setIsSearching}
                                     compareIds={compareIds}
                                     toggleCompare={toggleCompare}
                                 />

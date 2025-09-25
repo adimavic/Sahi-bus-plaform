@@ -28,7 +28,7 @@ export type Bus = {
   destination: string;
   features: ('AC' | 'Sleeper' | 'WiFi' | 'Charging Port')[];
   otas: OTA[];
-  directBooking?: OTA;
+  directBooking: OTA;
 };
 
 export type SearchQuery = {
@@ -37,3 +37,5 @@ export type SearchQuery = {
   date: Date;
   country: string;
 };
+
+export type SortOption = 'price' | 'rating' | 'departure' | 'duration';

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Bus } from '@/lib/types';
+import { SortOption } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -10,14 +10,40 @@ import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from './ui/button';
+import { Checkbox } from './ui/checkbox';
 
 interface FiltersProps {
-  buses: Bus[];
+  operators: string[];
+  maxPrice: number;
+  sortBy: SortOption;
+  onSortByChange: (value: SortOption) => void;
+  priceRange: number[];
+  onPriceChange: (value: number[]) => void;
+  seatType: string;
+  onSeatTypeChange: (value: string) => void;
+  selectedOperators: string[];
+  onSelectedOperatorsChange: (value: string[]) => void;
 }
 
-export function Filters({ buses }: FiltersProps) {
-  const operators = [...new Set(buses.map(bus => bus.operator.name))];
-  const maxPrice = Math.max(...buses.flatMap(bus => bus.otas.map(ota => parseFloat(ota.price.replace(/[^0-9.-]+/g,"")))), 0);
+export function Filters({ 
+  operators, 
+  maxPrice, 
+  sortBy, 
+  onSortByChange,
+  priceRange,
+  onPriceChange,
+  seatType,
+  onSeatTypeChange,
+  selectedOperators,
+  onSelectedOperatorsChange
+}: FiltersProps) {
+  
+  const handleOperatorChange = (operator: string) => {
+    const newSelection = selectedOperators.includes(operator)
+      ? selectedOperators.filter(op => op !== operator)
+      : [...selectedOperators, operator];
+    onSelectedOperatorsChange(newSelection);
+  };
 
   return (
     <Card className="border-0 shadow-none">
@@ -27,7 +53,7 @@ export function Filters({ buses }: FiltersProps) {
       <CardContent className="space-y-6">
         <div>
           <Label htmlFor="sort-by" className="text-gray-600">Sort by</Label>
-          <Select defaultValue="price">
+          <Select value={sortBy} onValueChange={onSortByChange}>
             <SelectTrigger id="sort-by" className="rounded-full">
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
@@ -43,20 +69,46 @@ export function Filters({ buses }: FiltersProps) {
         <div>
           <Label className="text-gray-600">Price Range</Label>
           <div className='mt-4'>
-            <Slider defaultValue={[maxPrice]} max={maxPrice} step={10} />
+            <Slider 
+              value={priceRange} 
+              onValueChange={onPriceChange} 
+              max={maxPrice} 
+              step={10} 
+            />
           </div>
           <div className="flex justify-between text-sm text-muted-foreground mt-2">
             <span>₹0</span>
-            <span>₹{maxPrice.toLocaleString()}</span>
+            <span>₹{priceRange[0].toLocaleString()}</span>
           </div>
         </div>
         <Separator />
         <div>
           <Label className="text-gray-600">Seat Type</Label>
           <div className="flex gap-2 mt-2">
-             <Button variant="outline" className="rounded-full flex-1 data-[active=true]:bg-primary/10 data-[active=true]:border-primary data-[active=true]:text-primary" data-active={true}>Seater</Button>
-             <Button variant="outline" className="rounded-full flex-1">Sleeper</Button>
+             <Button 
+                variant="outline" 
+                className="rounded-full flex-1 data-[active=true]:bg-primary/10 data-[active=true]:border-primary data-[active=true]:text-primary" 
+                data-active={seatType === 'seater'}
+                onClick={() => onSeatTypeChange('seater')}
+             >
+                Seater
+             </Button>
+             <Button 
+                variant="outline" 
+                className="rounded-full flex-1 data-[active=true]:bg-primary/10 data-[active=true]:border-primary data-[active=true]:text-primary" 
+                data-active={seatType === 'sleeper'}
+                onClick={() => onSeatTypeChange('sleeper')}
+              >
+                Sleeper
+              </Button>
           </div>
+           <Button 
+                variant="link" 
+                className="text-xs mt-1"
+                onClick={() => onSeatTypeChange('all')}
+            >
+                Show all
+            </Button>
         </div>
         <Separator />
         <div>
@@ -65,12 +117,23 @@ export function Filters({ buses }: FiltersProps) {
             <div className="space-y-2">
               {operators.map(op => (
                 <div key={op} className="flex items-center space-x-2">
-                  <Switch id={op} />
+                  <Checkbox 
+                    id={op} 
+                    checked={selectedOperators.includes(op)}
+                    onCheckedChange={() => handleOperatorChange(op)}
+                  />
                   <Label htmlFor={op} className="font-normal">{op}</Label>
                 </div>
               ))}
             </div>
           </ScrollArea>
+           <Button 
+                variant="link" 
+                className="text-xs mt-1"
+                onClick={() => onSelectedOperatorsChange([])}
+            >
+                Clear selection
+            </Button>
         </div>
       </CardContent>
     </Card>
