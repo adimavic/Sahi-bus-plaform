@@ -3,7 +3,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'shaibus',
+  title: 'Sahibus',
   description: 'Compare bus ticket prices and find the best deals.',
 };
 
