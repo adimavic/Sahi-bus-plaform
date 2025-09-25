@@ -8,7 +8,7 @@ import { BusResults } from '@/components/bus-results';
 import { ComparisonBar } from '@/components/comparison-bar';
 import { ComparisonModal } from '@/components/comparison-modal';
 import { useLocalStorage } from '@/hooks/use-local-storage';
-import { SidebarProvider, Sidebar, SidebarInset, SidebarContent, SidebarTrigger } from '@/components/ui/sidebar';
+import { SidebarProvider, Sidebar, SidebarContent, SidebarTrigger } from '@/components/ui/sidebar';
 import { Filters } from '@/components/filters';
 import { generateMockBuses } from '@/lib/data';
 import Image from 'next/image';
@@ -123,7 +123,7 @@ export default function Home() {
     return (
         <SidebarProvider>
             <div className="flex min-h-screen w-full flex-col">
-                <div className="relative bg-navy text-white pb-10">
+                <div className="relative bg-navy text-white">
                     <div className="absolute inset-0">
                         <Image
                             src="https://picsum.photos/seed/bus-travel/1800/600"
@@ -133,10 +133,11 @@ export default function Home() {
                             data-ai-hint="grand central station"
                             priority
                         />
+                         <div className="absolute inset-0 bg-navy opacity-80"></div>
                     </div>
                     <div className="container relative z-10">
                         <Header />
-                        <div className="pt-16 pb-12 md:pt-20 md:pb-16 text-center">
+                         <div className="pt-16 pb-12 md:pt-20 md:pb-16 text-center">
                             <h1 className="text-4xl font-headline font-bold tracking-tight md:text-5xl drop-shadow-md">
                                 The best bus offers anywhere across India
                             </h1>
@@ -152,7 +153,7 @@ export default function Home() {
                     <div className="container flex py-6 md:py-10">
                         {query && (
                             <div className="flex w-full gap-8">
-                                <aside className="w-1/4 hidden md:block">
+                               <aside className="w-1/4 hidden md:block">
                                     <Filters
                                         operators={operators}
                                         maxPrice={maxPrice}
@@ -198,7 +199,7 @@ export default function Home() {
                             </div>
                         )}
                          {!query && !isSearching && (
-                            <div className="w-full text-center py-16 text-muted-foreground border-2 border-dashed rounded-lg bg-white">
+                            <div className="w-full text-center py-16 text-muted-foreground border-2 border-dashed rounded-lg bg-card">
                                 <p className="font-medium">Your search results will appear here</p>
                                 <p className="text-sm">Enter your route and travel date to find buses.</p>
                             </div>
