@@ -7,7 +7,6 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { Slider } from '@/components/ui/slider';
-import { Switch } from '@/components/ui/switch';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from './ui/button';
 import { Checkbox } from './ui/checkbox';
@@ -23,6 +22,8 @@ interface FiltersProps {
   onSeatTypeChange: (value: string) => void;
   selectedOperators: string[];
   onSelectedOperatorsChange: (value: string[]) => void;
+  departureTime: number[];
+  onDepartureTimeChange: (value: number[]) => void;
 }
 
 export function Filters({ 
@@ -35,7 +36,9 @@ export function Filters({
   seatType,
   onSeatTypeChange,
   selectedOperators,
-  onSelectedOperatorsChange
+  onSelectedOperatorsChange,
+  departureTime,
+  onDepartureTimeChange
 }: FiltersProps) {
   
   const handleOperatorChange = (operator: string) => {
@@ -44,6 +47,14 @@ export function Filters({
       : [...selectedOperators, operator];
     onSelectedOperatorsChange(newSelection);
   };
+  
+  const formatHour = (hour: number) => {
+    const h = Math.floor(hour);
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    const formattedHour = h % 12 === 0 ? 12 : h % 12;
+    return `${formattedHour} ${ampm}`;
+  }
+
 
   return (
     <Card className="border-0 shadow-none">
@@ -79,6 +90,23 @@ export function Filters({
           <div className="flex justify-between text-sm text-muted-foreground mt-2">
             <span>₹0</span>
             <span>₹{priceRange[0].toLocaleString()}</span>
+          </div>
+        </div>
+        <Separator />
+         <div>
+          <Label className="text-gray-600">Departure Time</Label>
+          <div className='mt-4'>
+            <Slider 
+              value={departureTime} 
+              onValueChange={onDepartureTimeChange} 
+              max={24} 
+              min={0}
+              step={1} 
+            />
+          </div>
+          <div className="flex justify-between text-sm text-muted-foreground mt-2">
+            <span>{formatHour(departureTime[0])}</span>
+            <span>{formatHour(departureTime[1])}</span>
           </div>
         </div>
         <Separator />

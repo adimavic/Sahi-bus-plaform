@@ -26,6 +26,7 @@ export default function Home() {
     // Filter states
     const [sortBy, setSortBy] = useState<SortOption>('price');
     const [priceRange, setPriceRange] = useState<number[]>([1000]);
+    const [departureTime, setDepartureTime] = useState<number[]>([0, 24]);
     const [seatType, setSeatType] = useState<string>('all');
     const [selectedOperators, setSelectedOperators] = useState<string[]>([]);
     
@@ -55,6 +56,7 @@ export default function Home() {
             setSelectedOperators([]);
             setSortBy('price');
             setSeatType('all');
+            setDepartureTime([0, 24]);
             setIsSearching(false);
         }, 1000);
     }, [recentSearches, setRecentSearches]);
@@ -77,12 +79,32 @@ export default function Home() {
             .map(ota => parseFloat(ota!.price.replace(/[^0-9.]/g, '')));
         return Math.min(...prices);
     }
+
+    const parseTimeToHour = (time: string) => {
+        const [hour, minutePart] = time.split(':');
+        const minute = minutePart.substring(0, 2);
+        const ampm = minutePart.substring(3);
+        let hours = parseInt(hour);
+        if (ampm === 'PM' && hours !== 12) {
+            hours += 12;
+        }
+        if (ampm === 'AM' && hours === 12) {
+            hours = 0;
+        }
+        return hours + parseInt(minute) / 60;
+    };
     
     const filteredBuses = useMemo(() => {
         let buses = [...allBuses];
 
         // Filter by price
         buses = buses.filter(bus => getMinPrice(bus) <= priceRange[0]);
+        
+        // Filter by departure time
+        buses = buses.filter(bus => {
+            const busDepartureHour = parseTimeToHour(bus.departureTime);
+            return busDepartureHour >= departureTime[0] && busDepartureHour <= departureTime[1];
+        });
 
         // Filter by seat type
         if (seatType !== 'all') {
@@ -104,7 +126,7 @@ export default function Home() {
                 case 'rating':
                     return b.operator.rating - a.operator.rating;
                 case 'departure':
-                    return a.departureTime.localeCompare(b.departureTime);
+                    return parseTimeToHour(a.departureTime) - parseTimeToHour(b.departureTime);
                 case 'duration':
                     const durationA = parseInt(a.duration.split('h')[0]) * 60 + parseInt(a.duration.split('h')[1]?.replace('m', '') || '0');
                     const durationB = parseInt(b.duration.split('h')[0]) * 60 + parseInt(b.duration.split('h')[1]?.replace('m', '') || '0');
@@ -115,7 +137,7 @@ export default function Home() {
         });
 
         return buses;
-    }, [allBuses, sortBy, priceRange, seatType, selectedOperators]);
+    }, [allBuses, sortBy, priceRange, seatType, selectedOperators, departureTime]);
 
     
     const busesToCompare = allBuses.filter(bus => compareIds.has(bus.id));
@@ -152,8 +174,42 @@ export default function Home() {
                 <div className="flex-1 bg-background">
                     <div className="container flex py-6 md:py-10">
                         {query && (
-                            <div className="flex w-full gap-8">
-                                <main className="w-full">
+                             <div className="flex w-full gap-8">
+                                <aside className="hidden md:block w-1/4">
+                                     <Filters 
+                                        operators={operators}
+                                        maxPrice={maxPrice}
+                                        sortBy={sortBy}
+                                        onSortByChange={setSortBy}
+                                        priceRange={priceRange}
+                                        onPriceChange={setPriceRange}
+                                        seatType={seatType}
+                                        onSeatTypeChange={setSeatType}
+                                        selectedOperators={selectedOperators}
+                                        onSelectedOperatorsChange={setSelectedOperators}
+                                        departureTime={departureTime}
+                                        onDepartureTimeChange={setDepartureTime}
+                                    />
+                                </aside>
+                                <Sidebar>
+                                    <SidebarContent>
+                                        <Filters 
+                                            operators={operators}
+                                            maxPrice={maxPrice}
+                                            sortBy={sortBy}
+                                            onSortByChange={setSortBy}
+                                            priceRange={priceRange}
+                                            onPriceChange={setPriceRange}
+                                            seatType={seatType}
+                                            onSeatTypeChange={setSeatType}
+                                            selectedOperators={selectedOperators}
+                                            onSelectedOperatorsChange={setSelectedOperators}
+                                            departureTime={departureTime}
+                                            onDepartureTimeChange={setDepartureTime}
+                                        />
+                                    </SidebarContent>
+                                </Sidebar>
+                                <main className="w-full md:w-3/4">
                                      <div className="flex items-center mb-4 md:hidden">
                                         <SidebarTrigger />
                                         <h2 className="text-lg font-semibold ml-2">Filters & Sort</h2>
