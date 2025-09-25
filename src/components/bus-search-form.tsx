@@ -185,8 +185,8 @@ export function BusSearchForm({ onSearch, isSearching }: BusSearchFormProps) {
           </form>
         </Form>
         <div className="mt-4 px-2">
-            <PopularRoutes onSearch={handleSearch} />
-            <RecentSearches searches={recentSearches} onSearch={handleSearch} />
+            <PopularRoutes onSearch={onSearch} />
+            <RecentSearches searches={recentSearches} onSearch={onSearch} />
         </div>
     </div>
   );
