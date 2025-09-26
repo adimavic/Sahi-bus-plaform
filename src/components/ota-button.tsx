@@ -13,9 +13,13 @@ type OtaButtonProps = {
 };
 
 export function OtaButton({ ota, isDirect, isCheapest }: OtaButtonProps) {
+  const handleClick = () => {
+    window.open(ota.url, '_blank', 'noopener,noreferrer');
+  };
+
   const buttonContent = (
     <Button
-      asChild
+      onClick={handleClick}
       className={cn(
           "w-full justify-between px-3 py-1.5 h-auto rounded-full text-sm font-medium transition-all",
           isCheapest ? "bg-green-100 text-green-800 border-2 border-green-500 hover:bg-green-200" : "bg-gray-100 text-gray-700 hover:bg-gray-200",
@@ -23,10 +27,8 @@ export function OtaButton({ ota, isDirect, isCheapest }: OtaButtonProps) {
       )}
       style={isDirect ? { backgroundColor: ota.color, color: ota.textColor } : {}}
     >
-      <a href={ota.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between w-full">
-          <span className="font-semibold">{ota.name}</span>
-          <span className="font-bold">{ota.price}</span>
-      </a>
+      <span className="font-semibold">{ota.name}</span>
+      <span className="font-bold">{ota.price}</span>
     </Button>
   );
 
