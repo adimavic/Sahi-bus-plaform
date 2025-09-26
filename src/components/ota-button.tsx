@@ -2,9 +2,9 @@
 
 import { OTA } from '@/lib/types';
 import { Button } from './ui/button';
-import { ArrowRight } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 type OtaButtonProps = {
   ota: OTA;
@@ -14,20 +14,20 @@ type OtaButtonProps = {
 
 export function OtaButton({ ota, isDirect, isCheapest }: OtaButtonProps) {
   const buttonContent = (
-      <a 
-        href={ota.url} 
-        target="_blank" 
-        rel="noopener noreferrer" 
+    <Button
+        asChild
         className={cn(
-            "flex items-center justify-between w-full px-3 py-1.5 rounded-full text-sm font-medium transition-all",
+            "w-full justify-between px-3 py-1.5 h-auto rounded-full text-sm font-medium transition-all",
             isCheapest ? "bg-green-100 text-green-800 border-2 border-green-500 hover:bg-green-200" : "bg-gray-100 text-gray-700 hover:bg-gray-200",
             isDirect && "bg-blue-100 text-blue-800 hover:bg-blue-200"
         )}
         style={isDirect ? { backgroundColor: ota.color, color: ota.textColor } : {}}
       >
-        <span className="font-semibold">{ota.name}</span>
-        <span className="font-bold">{ota.price}</span>
-      </a>
+        <Link href={ota.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between w-full">
+            <span className="font-semibold">{ota.name}</span>
+            <span className="font-bold">{ota.price}</span>
+        </Link>
+    </Button>
   );
 
   return (
