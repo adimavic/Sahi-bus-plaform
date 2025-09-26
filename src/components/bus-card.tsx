@@ -2,7 +2,7 @@
 
 import { Bus, Operator, OTA } from '@/lib/types';
 import { Card, CardContent } from '@/components/ui/card';
-import { ArrowRight, Star, Wifi, Wind, Bed, Zap } from 'lucide-react';
+import { Star } from 'lucide-react';
 import { OtaButton } from './ota-button';
 import { FeatureIcon } from './feature-icon';
 import { Switch } from './ui/switch';
@@ -15,7 +15,7 @@ import Link from 'next/link';
 type BusCardProps = {
   bus: Bus;
   isComparing: boolean;
-  onCompareToggle: (e: React.MouseEvent) => void;
+  onCompareToggle: (busId: string) => void;
   canCompare: boolean;
 };
 
@@ -59,10 +59,10 @@ export function BusCard({ bus, isComparing, onCompareToggle, canCompare }: BusCa
   const handleCompareClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    onCompareToggle(e);
+    onCompareToggle(bus.id);
   };
   
-  const handleOtaClick = (e: React.MouseEvent) => {
+  const handleOtaContainerClick = (e: React.MouseEvent) => {
     e.stopPropagation();
   };
 
@@ -110,7 +110,7 @@ export function BusCard({ bus, isComparing, onCompareToggle, canCompare }: BusCa
                     </Tooltip>
                 </TooltipProvider>
 
-                <div className="flex flex-col gap-2 mt-2 w-full max-w-[200px]" onClick={handleOtaClick}>
+                <div className="flex flex-col gap-2 mt-2 w-full max-w-[200px]" onClick={handleOtaContainerClick}>
                     {bus.otas.map(ota => (
                         <OtaButton 
                             key={ota.name} 

@@ -14,7 +14,9 @@ type OtaButtonProps = {
 
 export function OtaButton({ ota, isDirect, isCheapest }: OtaButtonProps) {
   const handleClick = (e: React.MouseEvent) => {
+    // We stop propagation here as well, just in case.
     e.stopPropagation();
+    e.preventDefault();
     window.open(ota.url, '_blank', 'noopener,noreferrer');
   };
 
@@ -32,8 +34,8 @@ export function OtaButton({ ota, isDirect, isCheapest }: OtaButtonProps) {
       <span className="font-bold">{ota.price}</span>
     </Button>
   );
-
-  if(ota.name === 'Redbus' || ota.name === 'MakeMyTrip' || ota.name === 'AbhiBus' || ota.name === '12Go' || ota.name === 'Bookaway'){
+  
+  if(ota.name === 'Redbus' || ota.name === 'MakeMyTrip' || ota.name === 'AbhiBus' || ota.name === '12Go' || ota.name === 'Bookaway' || isDirect){
      return (
       <TooltipProvider>
         <Tooltip>
@@ -48,8 +50,8 @@ export function OtaButton({ ota, isDirect, isCheapest }: OtaButtonProps) {
     );
   } else {
      return (
-        <Button asChild className="mt-2">
-            <a href={ota.url} target="_blank" rel="noopener noreferrer">Select</a>
+        <Button onClick={handleClick} className="mt-2 w-full">
+            Select
         </Button>
      )
   }
