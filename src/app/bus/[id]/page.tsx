@@ -18,12 +18,12 @@ import { FeatureIcon } from '@/components/feature-icon';
 
 const getOperatorLogo = (operatorName: string) => {
     const name = operatorName.toLowerCase();
-    if (name.includes('flixbus')) return '/logos/flixbus.png';
-    if (name.includes('intercity')) return '/logos/intercity.png';
-    if (name.includes('vrl')) return '/logos/vrl.png';
-    if (name.includes('sharma')) return '/logos/sharma.png';
+    if (name.includes('flixbus')) return 'https://picsum.photos/seed/flixbus/24/24';
+    if (name.includes('intercity')) return 'https://picsum.photos/seed/intercity/24/24';
+    if (name.includes('vrl')) return 'https://picsum.photos/seed/vrl/24/24';
+    if (name.includes('sharma')) return 'https://picsum.photos/seed/sharma/24/24';
     if (name.includes('orange')) return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5tONpAaY7w_HZtHNCDAJIUqbP7_KzdWXRuA&s';
-    return '/logos/default.png';
+    return 'https://picsum.photos/seed/default-bus/24/24';
 }
 
 const BookingProviderCard = ({ provider, isCheapest }: { provider: OTA, isCheapest: boolean }) => (
@@ -102,7 +102,7 @@ export default function BusDetailsPage() {
                         Back to results
                     </Button>
                     <div className="flex items-center gap-2 text-sm">
-                        <Image src="/logos/default.png" alt="logo" width={24} height={24} />
+                        <Image src="https://picsum.photos/seed/default-logo/24/24" alt="logo" width={24} height={24} />
                         Sahibus
                     </div>
                 </div>
@@ -168,7 +168,7 @@ export default function BusDetailsPage() {
                                             <p className="font-semibold">{bus.source}</p>
                                             <p className="text-sm text-muted-foreground">Main Bus Terminal</p>
                                         </div>
-                                    </div>
+_                                    </div>
                                      <div className="flex items-center gap-4 pl-12">
                                         <Clock className="w-4 h-4 text-muted-foreground" />
                                         <p className="text-sm text-muted-foreground">{bus.duration} journey</p>

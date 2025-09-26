@@ -21,12 +21,12 @@ type BusCardProps = {
 
 const getOperatorLogo = (operatorName: string) => {
     const name = operatorName.toLowerCase();
-    if (name.includes('flixbus')) return '/logos/flixbus.png';
-    if (name.includes('intercity')) return '/logos/intercity.png';
-    if (name.includes('vrl')) return '/logos/vrl.png';
-    if (name.includes('sharma')) return '/logos/sharma.png';
+    if (name.includes('flixbus')) return 'https://picsum.photos/seed/flixbus/48/48';
+    if (name.includes('intercity')) return 'https://picsum.photos/seed/intercity/48/48';
+    if (name.includes('vrl')) return 'https://picsum.photos/seed/vrl/48/48';
+    if (name.includes('sharma')) return 'https://picsum.photos/seed/sharma/48/48';
     if (name.includes('orange')) return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5tONpAaY7w_HZtHNCDAJIUqbP7_KzdWXRuA&s';
-    return '/logos/default.png';
+    return 'https://picsum.photos/seed/default-bus/48/48';
 }
 
 const OperatorInfo = ({ operator }: { operator: Operator }) => (
