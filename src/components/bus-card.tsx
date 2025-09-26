@@ -23,7 +23,7 @@ const getOperatorLogo = (operatorName: string) => {
     const name = operatorName.toLowerCase();
     if (name.includes('flixbus')) return 'https://picsum.photos/seed/flixbus/48/48';
     if (name.includes('intercity')) return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmlKUZf0EMLCyMV78lIEQQ95jJdiNYoOyCeg&s';
-    if (name.includes('vrl')) return 'https://picsum.photos/seed/vrl/48/48';
+    if (name.includes('vrl')) return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgOtGjUcBxF4UhO5tMtzqpK8l3gtPglZd9Nw&s';
     if (name.includes('sharma')) return 'https://gst-contracts.s3.ap-southeast-1.amazonaws.com/uploads/bcc/cms/asset/avatar/182261/logo.png';
     if (name.includes('orange')) return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5tONpAaY7w_HZtHNCDAJIUqbP7_KzdWXRuA&s';
     if (name.includes('greenline')) return 'https://play-lh.googleusercontent.com/vW7sCpGUghRISgbvX9RkR7mSDNwictdn7GRzaB76carQs1FpEAVrQjN2kQUSI_uPEKM';
