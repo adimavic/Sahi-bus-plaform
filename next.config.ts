@@ -34,6 +34,18 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'play-lh.googleusercontent.com',
+        port: '',
+        pathname: '/**',
+      },
+       {
+        protocol: 'https',
+        hostname: 'gst-contracts.s3.ap-southeast-1.amazonaws.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };

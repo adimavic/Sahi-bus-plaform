@@ -19,10 +19,11 @@ import { FeatureIcon } from '@/components/feature-icon';
 const getOperatorLogo = (operatorName: string) => {
     const name = operatorName.toLowerCase();
     if (name.includes('flixbus')) return 'https://picsum.photos/seed/flixbus/24/24';
-    if (name.includes('intercity')) return 'https://picsum.photos/seed/intercity/24/24';
+    if (name.includes('intercity')) return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmlKUZf0EMLCyMV78lIEQQ95jJdiNYoOyCeg&s';
     if (name.includes('vrl')) return 'https://picsum.photos/seed/vrl/24/24';
-    if (name.includes('sharma')) return 'https://picsum.photos/seed/sharma/24/24';
+    if (name.includes('sharma')) return 'https://gst-contracts.s3.ap-southeast-1.amazonaws.com/uploads/bcc/cms/asset/avatar/182261/logo.png';
     if (name.includes('orange')) return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5tONpAaY7w_HZtHNCDAJIUqbP7_KzdWXRuA&s';
+    if (name.includes('greenline')) return 'https://play-lh.googleusercontent.com/vW7sCpGUghRISgbvX9RkR7mSDNwictdn7GRzaB76carQs1FpEAVrQjN2kQUSI_uPEKM';
     return 'https://picsum.photos/seed/default-bus/24/24';
 }
 
