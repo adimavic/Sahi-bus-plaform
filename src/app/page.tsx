@@ -84,6 +84,7 @@ export default function Home() {
     }
 
     const parseTimeToHour = (time: string) => {
+        if (!time) return 0;
         const [hour, minutePart] = time.split(':');
         const minute = minutePart.substring(0, 2);
         const ampm = minutePart.substring(3);
@@ -106,7 +107,7 @@ export default function Home() {
         // Filter by time
         if (selectedTimeSlots.length > 0) {
             buses = buses.filter(bus => {
-                const busDateHour = parseTimeToHour(bus.date);
+                const busDateHour = parseTimeToHour(bus.departureTime);
                 return selectedTimeSlots.some(slot => {
                     if (slot === 'before-6') return busDateHour < 6;
                     if (slot === '6-12') return busDateHour >= 6 && busDateHour < 12;
@@ -136,8 +137,8 @@ export default function Home() {
                     return getMinPrice(a) - getMinPrice(b);
                 case 'rating':
                     return b.operator.rating - a.operator.rating;
-                case 'date':
-                    return parseTimeToHour(a.date) - parseTimeToHour(b.date);
+                case 'departure':
+                    return parseTimeToHour(a.departureTime) - parseTimeToHour(b.departureTime);
                 case 'duration':
                     const durationA = parseInt(a.duration.split('h')[0]) * 60 + parseInt(a.duration.split('h')[1]?.replace('m', '') || '0');
                     const durationB = parseInt(b.duration.split('h')[0]) * 60 + parseInt(b.duration.split('h')[1]?.replace('m', '') || '0');
