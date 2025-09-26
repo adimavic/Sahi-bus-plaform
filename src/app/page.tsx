@@ -17,10 +17,10 @@ import Image from 'next/image';
 import { Footer } from '@/components/layout/footer';
 
 export default function Home() {
-    const [query, setQuery] = useState<SearchQuery | null>(null);
+    const [query, setQuery] = useLocalStorage<SearchQuery | null>('last-search-query', null);
     const [isSearching, setIsSearching] = useState(false);
     
-    const [allBuses, setAllBuses] = useState<Bus[]>([]);
+    const [allBuses, setAllBuses] = useLocalStorage<Bus[]>('last-search-results', []);
     const [compareIds, setCompareIds] = useState<Set<string>>(new Set());
     const [isCompareModalOpen, setIsCompareModalOpen] = useState(false);
 
@@ -62,7 +62,7 @@ export default function Home() {
             setSelectedTimeSlots([]);
             setIsSearching(false);
         }, 1000);
-    }, [recentSearches, setRecentSearches]);
+    }, [recentSearches, setRecentSearches, setQuery, setAllBuses]);
 
     const toggleCompare = (busId: string) => {
         setCompareIds(prev => {
