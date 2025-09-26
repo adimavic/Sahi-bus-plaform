@@ -61,6 +61,10 @@ export function BusCard({ bus, isComparing, onCompareToggle, canCompare }: BusCa
     e.stopPropagation();
     onCompareToggle(e);
   };
+  
+  const handleOtaClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
 
   return (
     <Link href={`/bus/${bus.id}`} className="block transition-all hover:shadow-lg hover:-translate-y-1">
@@ -106,7 +110,7 @@ export function BusCard({ bus, isComparing, onCompareToggle, canCompare }: BusCa
                     </Tooltip>
                 </TooltipProvider>
 
-                <div className="flex flex-col gap-2 mt-2 w-full max-w-[200px]" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+                <div className="flex flex-col gap-2 mt-2 w-full max-w-[200px]" onClick={handleOtaClick}>
                     {bus.otas.map(ota => (
                         <OtaButton 
                             key={ota.name} 

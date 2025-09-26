@@ -15,18 +15,18 @@ type OtaButtonProps = {
 export function OtaButton({ ota, isDirect, isCheapest }: OtaButtonProps) {
   const buttonContent = (
     <Button
-        asChild
-        className={cn(
-            "w-full justify-between px-3 py-1.5 h-auto rounded-full text-sm font-medium transition-all",
-            isCheapest ? "bg-green-100 text-green-800 border-2 border-green-500 hover:bg-green-200" : "bg-gray-100 text-gray-700 hover:bg-gray-200",
-            isDirect && "bg-blue-100 text-blue-800 hover:bg-blue-200"
-        )}
-        style={isDirect ? { backgroundColor: ota.color, color: ota.textColor } : {}}
-      >
-        <Link href={ota.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between w-full">
-            <span className="font-semibold">{ota.name}</span>
-            <span className="font-bold">{ota.price}</span>
-        </Link>
+      asChild
+      className={cn(
+          "w-full justify-between px-3 py-1.5 h-auto rounded-full text-sm font-medium transition-all",
+          isCheapest ? "bg-green-100 text-green-800 border-2 border-green-500 hover:bg-green-200" : "bg-gray-100 text-gray-700 hover:bg-gray-200",
+          isDirect && "bg-blue-100 text-blue-800 hover:bg-blue-200"
+      )}
+      style={isDirect ? { backgroundColor: ota.color, color: ota.textColor } : {}}
+    >
+      <a href={ota.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between w-full">
+          <span className="font-semibold">{ota.name}</span>
+          <span className="font-bold">{ota.price}</span>
+      </a>
     </Button>
   );
 
