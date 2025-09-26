@@ -44,9 +44,7 @@ const BookingProviderCard = ({ provider, isCheapest }: { provider: OTA, isCheape
             </div>
             <div className="text-right">
                 <p className="text-xl font-bold">{provider.price}</p>
-                <Button asChild className="mt-2">
-                    <a href={provider.url} target="_blank" rel="noopener noreferrer">Select</a>
-                </Button>
+                <OtaButton ota={provider} isDirect={false} isCheapest={false} />
             </div>
         </CardContent>
     </Card>
@@ -114,21 +112,6 @@ export default function BusDetailsPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* Left Column */}
                     <div className="lg:col-span-1 space-y-6">
-                        <Card>
-                             <CardHeader>
-                                <CardTitle>Good to know</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <Accordion type="single" collapsible defaultValue="item-1">
-                                    <AccordionItem value="item-1">
-                                        <AccordionTrigger>Self-transfer</AccordionTrigger>
-                                        <AccordionContent>
-                                        This means you'll have to change buses yourself at the connection point. Make sure you have enough time.
-                                        </AccordionContent>
-                                    </AccordionItem>
-                                </Accordion>
-                            </CardContent>
-                        </Card>
                          <Card>
                             <CardHeader>
                                 <CardTitle>Book your ticket</CardTitle>
@@ -152,10 +135,6 @@ export default function BusDetailsPage() {
                                 <h1 className="text-3xl font-bold">{bus.destination}</h1>
                                 <p className="text-muted-foreground">{`1 traveller • ${bus.source} to ${bus.destination}`}</p>
                             </div>
-                             <Button variant="outline">
-                                <Heart className="mr-2 h-4 w-4" />
-                                Save
-                            </Button>
                         </div>
                         
                         <Card>
