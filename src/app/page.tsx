@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { Bus, SearchQuery, SortOption, TimeSlot } from '@/lib/types';
 import { Header } from '@/components/layout/header';
 import { BusSearchForm } from '@/components/bus-search-form';
@@ -33,6 +33,12 @@ export default function Home() {
     const [seatType, setSeatType] = useState<string>('all');
     const [selectedOperators, setSelectedOperators] = useState<string[]>([]);
     
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
+
     const operators = useMemo(() => [...new Set(allBuses.map(bus => bus.operator.name))], [allBuses]);
     const maxPrice = useMemo(() => Math.max(...allBuses.flatMap(bus => [...bus.otas, bus.directBooking].filter(Boolean).map(ota => parseFloat(ota!.price.replace(/[^0-9.-]+/g,"")))), 0) || 1000, [allBuses]);
 
@@ -171,6 +177,57 @@ export default function Home() {
         />
     );
 
+    const renderContent = () => {
+        if (!isClient) {
+             return (
+                <div className="w-full text-center py-16 text-muted-foreground border-2 border-dashed rounded-lg bg-card">
+                    <p className="font-medium">Loading previous search...</p>
+                </div>
+            );
+        }
+
+        if (query) {
+            return (
+                <>
+                    <div className="w-full md:w-1/4">
+                        <div className="md:hidden mb-4">
+                            <Sheet>
+                                <SheetTrigger asChild>
+                                    <Button variant="outline" className="w-full">
+                                        <PanelLeft className="mr-2 h-4 w-4" />
+                                        Filters & Sort
+                                    </Button>
+                                </SheetTrigger>
+                                <SheetContent side="left">
+                                    {filterComponent}
+                                </SheetContent>
+                            </Sheet>
+                        </div>
+                        <div className="hidden md:block">
+                            {filterComponent}
+                        </div>
+                    </div>
+                    <main className="w-full md:w-3/4">
+                        <BusResults 
+                            query={query}
+                            buses={filteredBuses}
+                            isSearching={isSearching}
+                            compareIds={compareIds}
+                            toggleCompare={toggleCompare}
+                        />
+                    </main>
+                </>
+            );
+        }
+
+        return (
+            <div className="w-full text-center py-16 text-muted-foreground border-2 border-dashed rounded-lg bg-card">
+                <p className="font-medium">Your search results will appear here</p>
+                <p className="text-sm">Enter your route and travel date to find buses.</p>
+            </div>
+        );
+    };
+
     return (
         <div className="flex min-h-screen w-full flex-col">
             <div className="relative bg-indigo-deep text-white">
@@ -198,47 +255,11 @@ export default function Home() {
 
             <div className="flex-1 bg-background">
                 <div className="container flex flex-col md:flex-row py-6 md:py-10 gap-8">
-                    {query && (
-                         <>
-                            <div className="w-full md:w-1/4">
-                                <div className="md:hidden mb-4">
-                                    <Sheet>
-                                        <SheetTrigger asChild>
-                                            <Button variant="outline" className="w-full">
-                                                <PanelLeft className="mr-2 h-4 w-4" />
-                                                Filters & Sort
-                                            </Button>
-                                        </SheetTrigger>
-                                        <SheetContent side="left">
-                                            {filterComponent}
-                                        </SheetContent>
-                                    </Sheet>
-                                </div>
-                                <div className="hidden md:block">
-                                    {filterComponent}
-                                </div>
-                            </div>
-                            <main className="w-full md:w-3/4">
-                                <BusResults 
-                                    query={query}
-                                    buses={filteredBuses}
-                                    isSearching={isSearching}
-                                    compareIds={compareIds}
-                                    toggleCompare={toggleCompare}
-                                />
-                            </main>
-                        </>
-                    )}
-                     {!query && !isSearching && (
-                        <div className="w-full text-center py-16 text-muted-foreground border-2 border-dashed rounded-lg bg-card">
-                            <p className="font-medium">Your search results will appear here</p>
-                            <p className="text-sm">Enter your route and travel date to find buses.</p>
-                        </div>
-                    )}
+                    {renderContent()}
                 </div>
             </div>
             
-            {compareIds.size > 0 && (
+            {isClient && compareIds.size > 0 && (
                  <ComparisonBar 
                     count={compareIds.size}
                     onCompare={() => setIsCompareModalOpen(true)}
