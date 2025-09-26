@@ -1,0 +1,3 @@
+# Disallow all web crawlers and bots from scraping the website.
+User-agent: *
+Disallow: /
