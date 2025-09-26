@@ -10,11 +10,12 @@ import { Label } from './ui/label';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
+import Link from 'next/link';
 
 type BusCardProps = {
   bus: Bus;
   isComparing: boolean;
-  onCompareToggle: () => void;
+  onCompareToggle: (e: React.MouseEvent) => void;
   canCompare: boolean;
 };
 
@@ -55,69 +56,77 @@ export function BusCard({ bus, isComparing, onCompareToggle, canCompare }: BusCa
       return price < minPrice ? ota! : min;
   }, null as OTA | null);
 
+  const handleCompareClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onCompareToggle(e);
+  };
+
   return (
-    <Card className="rounded-2xl shadow-md p-5 hover:shadow-lg hover:-translate-y-1 transition-all bg-white">
-      <CardContent className="p-0 flex flex-col md:flex-row justify-between items-center gap-4">
-        
-        {/* Left Section */}
-        <div className="w-full md:w-1/4 flex flex-col gap-3 self-start">
-          <OperatorInfo operator={bus.operator} />
-          <div className="flex flex-wrap gap-2 text-xs text-gray-500 mt-2">
-            {bus.features.map(feature => <FeatureIcon key={feature} feature={feature} />)}
-          </div>
-        </div>
-
-        {/* Center Section */}
-        <div className="w-full md:w-1/2 flex items-center justify-around">
-            <TravelInfo time={bus.departureTime} city={bus.source} />
-            <div className="text-center">
-                <p className="text-gray-600 font-medium">{bus.duration}</p>
-                <div className="w-full h-px bg-border my-1"></div>
-                <p className="text-sm text-gray-400">Direct</p>
+    <Link href={`/bus/${bus.id}`} className="block transition-all hover:shadow-lg hover:-translate-y-1">
+        <Card className="rounded-2xl shadow-md p-5 bg-white">
+        <CardContent className="p-0 flex flex-col md:flex-row justify-between items-center gap-4">
+            
+            {/* Left Section */}
+            <div className="w-full md:w-1/4 flex flex-col gap-3 self-start">
+            <OperatorInfo operator={bus.operator} />
+            <div className="flex flex-wrap gap-2 text-xs text-gray-500 mt-2">
+                {bus.features.map(feature => <FeatureIcon key={feature} feature={feature} />)}
             </div>
-            <TravelInfo time={bus.arrivalTime} city={bus.destination} />
-        </div>
+            </div>
 
-        {/* Right Section */}
-        <div className="w-full md:w-1/4 text-right flex flex-col items-end gap-3 self-start">
-             <TooltipProvider>
-                <Tooltip>
-                    <TooltipTrigger asChild>
-                       <div className="flex items-center space-x-2">
-                            <Label htmlFor={`compare-${bus.id}`} className={cn("text-sm font-medium", !canCompare && !isComparing && "text-muted cursor-not-allowed")}>
-                                Compare
-                            </Label>
-                             <Switch id={`compare-${bus.id}`} checked={isComparing} onCheckedChange={onCompareToggle} disabled={!canCompare && !isComparing} />
-                        </div>
-                    </TooltipTrigger>
-                    {!canCompare && !isComparing && (
-                            <TooltipContent>
-                            <p>You can compare up to 3 buses.</p>
-                        </TooltipContent>
+            {/* Center Section */}
+            <div className="w-full md:w-1/2 flex items-center justify-around">
+                <TravelInfo time={bus.departureTime} city={bus.source} />
+                <div className="text-center">
+                    <p className="text-gray-600 font-medium">{bus.duration}</p>
+                    <div className="w-full h-px bg-border my-1"></div>
+                    <p className="text-sm text-gray-400">Direct</p>
+                </div>
+                <TravelInfo time={bus.arrivalTime} city={bus.destination} />
+            </div>
+
+            {/* Right Section */}
+            <div className="w-full md:w-1/4 text-right flex flex-col items-end gap-3 self-start">
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                        <div className="flex items-center space-x-2" onClick={handleCompareClick}>
+                                <Label htmlFor={`compare-${bus.id}`} className={cn("text-sm font-medium", !canCompare && !isComparing && "text-muted cursor-not-allowed")}>
+                                    Compare
+                                </Label>
+                                <Switch id={`compare-${bus.id}`} checked={isComparing} onCheckedChange={() => {}} disabled={!canCompare && !isComparing} />
+                            </div>
+                        </TooltipTrigger>
+                        {!canCompare && !isComparing && (
+                                <TooltipContent>
+                                <p>You can compare up to 3 buses.</p>
+                            </TooltipContent>
+                        )}
+                    </Tooltip>
+                </TooltipProvider>
+
+                <div className="flex flex-col gap-2 mt-2 w-full max-w-[200px]" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+                    {bus.otas.map(ota => (
+                        <OtaButton 
+                            key={ota.name} 
+                            ota={ota} 
+                            isDirect={false}
+                            isCheapest={ota.name === cheapestOta?.name && ota.price === cheapestOta?.price}
+                        />
+                    ))}
+                    {bus.directBooking && (
+                        <OtaButton 
+                            ota={bus.directBooking} 
+                            isDirect={true} 
+                            isCheapest={bus.directBooking.name === cheapestOta?.name && bus.directBooking.price === cheapestOta?.price}
+                        />
                     )}
-                </Tooltip>
-            </TooltipProvider>
-
-            <div className="flex flex-col gap-2 mt-2 w-full max-w-[200px]">
-                {bus.otas.map(ota => (
-                    <OtaButton 
-                        key={ota.name} 
-                        ota={ota} 
-                        isDirect={false}
-                        isCheapest={ota.name === cheapestOta?.name && ota.price === cheapestOta?.price}
-                    />
-                ))}
-                {bus.directBooking && (
-                    <OtaButton 
-                        ota={bus.directBooking} 
-                        isDirect={true} 
-                        isCheapest={bus.directBooking.name === cheapestOta?.name && bus.directBooking.price === cheapestOta?.price}
-                    />
-                )}
+                </div>
             </div>
-        </div>
 
-      </CardContent>
-    </Card>
+        </CardContent>
+        </Card>
+    </Link>
   );
 }
