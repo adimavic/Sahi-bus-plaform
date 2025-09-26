@@ -22,7 +22,7 @@ const getOperatorLogo = (operatorName: string) => {
     if (name.includes('intercity')) return '/logos/intercity.png';
     if (name.includes('vrl')) return '/logos/vrl.png';
     if (name.includes('sharma')) return '/logos/sharma.png';
-    if (name.includes('orange')) return '/logos/orange.png';
+    if (name.includes('orange')) return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5tONpAaY7w_HZtHNCDAJIUqbP7_KzdWXRuA&s';
     return '/logos/default.png';
 }
 
