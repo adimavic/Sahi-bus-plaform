@@ -1,34 +1,20 @@
-import type {NextConfig} from 'next';
+import type { NextConfig } from "next";
+
+const isProd = process.env.NODE_ENV === "production";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  typescript: {
-    ignoreBuildErrors: true,
+  output: "export", // Static export build
+  images: {
+    unoptimized: true, // required for static hosting
   },
+  // ✅ Critical: ensure correct asset and base paths for GitHub Pages
+  basePath: isProd ? "/Sahi-bus-plaform" : "",
+  assetPrefix: isProd ? "/Sahi-bus-plaform" : "",
   eslint: {
     ignoreDuringBuilds: true,
   },
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'placehold.co',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'picsum.photos',
-        port: '',
-        pathname: '/**',
-      },
-    ],
+  typescript: {
+    ignoreBuildErrors: true,
   },
 };
 
